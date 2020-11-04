@@ -1,24 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap");
 * {
   box-sizing: border-box;
+}
+
+body {
+  -webkit-font-smoothing: subpixel-antialiased !important;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
 
 .page {
   height: 100vh;
   width: 100%;
+  display: flex;
 }
 
 .sidebar {
   position: relative;
   width: 420px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6vh;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 .sidebar::after {
   content: "";
   position: absolute;
   right: 0;
-  top: 0;
-  bottom: 0;
-  height: 90%;
+  top: 3%;
+  bottom: 3%;
+  height: 94%;
   width: 2px;
-  background-color: #fff;
+  background-color: #BFBFBF;
+}
+.sidebar__container {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sidebar__header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 35px;
+  border-bottom: 2px solid #BFBFBF;
+}
+.sidebar__input {
+  border: 1px solid #BFBFBF;
+  border-radius: 6px;
+  width: 260px;
+  height: 45px;
+  margin-bottom: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background: url("img/search.svg") no-repeat center right;
+  background-position-x: calc(100% - 15px);
+}
+.sidebar__tag-line {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.sidebar__tag {
+  border: 1px solid #F03A3A;
+  border-radius: 25px;
+  width: 108px;
+  height: 30px;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 12px;
+  padding-left: 9px;
+  padding-right: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sidebar__tag-circle {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background-color: #F03A3A;
+}
+.sidebar__tasks {
+  padding-top: 35px;
+}
+.sidebar__task {
+  width: 100%;
+  height: 60px;
+  margin-bottom: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #F03A3A;
+  border-radius: 20px;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 18px;
+  padding-left: 25px;
+  padding-right: 18px;
+}
+.sidebar__task-add {
+  border: 1px solid #BFBFBF;
+}
+
+.mainside {
+  width: calc(100% - 420px);
+  height: 100%;
+}
+.mainside__container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+}
+.mainside__logo {
+  font-family: "Montserrat Alternates";
+  font-weight: 500;
+  font-size: 96px;
+  text-align: center;
+  height: auto;
+  line-height: 120%;
+  align-self: center;
+  padding-bottom: 30px;
 }
