@@ -214,7 +214,7 @@ $grey5: #5E5E5E;
     margin-bottom: 35px;
 
     &-logo{
-      width: 199px;
+      width: 250px;
     }
   }
 
@@ -223,11 +223,11 @@ $grey5: #5E5E5E;
     border: none;
     background-color: transparent;
     text-align: center;
-    min-width: calc(100% - 420px);
+    min-width: calc(100% - 600px);
   }
 
   &__controls{
-    width: 200px;
+    width: 250px;
     display: flex;
     justify-content: space-between;
 

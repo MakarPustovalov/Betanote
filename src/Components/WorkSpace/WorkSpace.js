@@ -4,8 +4,9 @@ import addTag from '../../assets/img/buttons/addTag.svg'
 import cancel from '../../assets/img/buttons/cancel.svg'
 import save from '../../assets/img/buttons/save.svg'
 import close from '../../assets/img/buttons/close.svg'
+import deleteBtn from '../../assets/img/buttons/delete.svg'
 
-function WorkSpace({currentNote, inputHandler, saveNote, closeWorkspace}) {
+function WorkSpace({currentNote, inputHandler, saveNote, closeWorkspace, deleteNote}) {
   return(
     <>
       <header className="mainside__heading">
@@ -16,7 +17,7 @@ function WorkSpace({currentNote, inputHandler, saveNote, closeWorkspace}) {
     
         <input
         className="mainside__description"
-        placeholder="Task description"
+        placeholder="Note description"
         name="description"
         onChange={inputHandler}
         value={currentNote.description}
@@ -24,20 +25,24 @@ function WorkSpace({currentNote, inputHandler, saveNote, closeWorkspace}) {
     
         <div className="mainside__controls">
           
+          <button onClick={deleteNote} className="mainside__controls-button">
+            <img src={deleteBtn} alt="Delete" />
+          </button>
+          
           <button className="mainside__controls-button">
-            <img src={addTag} alt="" />
+            <img src={addTag} alt="Tag" />
           </button>
     
           <button className="mainside__controls-button">
-            <img src={cancel} alt="" />
+            <img src={cancel} alt="Cancel" />
           </button>
     
           <button onClick={saveNote} className="mainside__controls-button">
-            <img src={save} alt="" />
+            <img src={save} alt="Save" />
           </button>
     
           <button onClick={closeWorkspace} className="mainside__controls-button">
-            <img src={close} alt="" />
+            <img src={close} alt="Close" />
           </button>
     
         </div>

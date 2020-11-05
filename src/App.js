@@ -15,6 +15,8 @@ class App extends React.Component {
     this.saveNote = this.saveNote.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
+    this.deleteNote = this.deleteNote.bind(this)
+    this.clearCurrentNote = this.clearCurrentNote.bind(this)
   }
 
   setLocalStorage() {
@@ -45,7 +47,7 @@ class App extends React.Component {
   }
 
   closeWorkspace() {
-    this.setState({isWorkspaceOn: false})
+    this.setState({isWorkspaceOn: false}, this.clearCurrentNote())
   }
 
   saveNote() {
@@ -78,10 +80,27 @@ class App extends React.Component {
 
   createNewNote() {
     this.setState({currentNote: {
-      id: `id-3-${(+new Date).toString()}`,
+      id: `${(+new Date).toString()}`,
       description: '',
       content: "",
     }, isWorkspaceOn: true})
+  }
+
+  clearCurrentNote() {
+    this.setState({currentNote: {}})
+  }
+
+  deleteNote() {
+    const activeNote = this.getNoteById(this.state.currentNote.id)
+    const newNotes = this.state.notes.filter(elem => {
+      return elem !== activeNote
+    })
+    this.setState({notes: newNotes})
+    this.closeWorkspace()
+  }
+
+  componentDidUpdate() {
+    this.setLocalStorage()
   }
 
   render() {
@@ -102,6 +121,7 @@ class App extends React.Component {
         isWorkspaceOn={this.state.isWorkspaceOn}
         saveNote={this.saveNote}
         closeWorkspace={this.closeWorkspace}
+        deleteNote={this.deleteNote}
         />
     
       </div>

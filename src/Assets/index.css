@@ -165,7 +165,7 @@ body {
   margin-bottom: 35px;
 }
 .mainside__heading-logo {
-  width: 199px;
+  width: 250px;
 }
 .mainside__description {
   font-family: "Roboto";
@@ -174,10 +174,10 @@ body {
   border: none;
   background-color: transparent;
   text-align: center;
-  min-width: calc(100% - 420px);
+  min-width: calc(100% - 600px);
 }
 .mainside__controls {
-  width: 200px;
+  width: 250px;
   display: flex;
   justify-content: space-between;
 }
