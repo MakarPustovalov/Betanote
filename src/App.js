@@ -9,6 +9,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
+ * - Adaptive for mobile
  */
 
 class App extends React.Component {
