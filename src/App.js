@@ -1,10 +1,24 @@
-import './App.css';
+import React from 'react'
+import MainSide from './Components/MainSide/MainSide';
+import Sidebar from './Components/Sidebar/Sidebar';
 
-function App() {
-  return (
-    <>
-    </>
-  );
+class App extends React.Component {
+  constructor() {
+    super()
+  }
+
+  render() {
+
+    return (
+      <div class="page">
+
+        <Sidebar />
+
+        <MainSide />
+    
+      </div>
+    );
+  }
 }
 
 export default App;
