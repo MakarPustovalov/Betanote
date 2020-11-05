@@ -30,6 +30,7 @@ class App extends React.Component {
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveNote = this.saveNote.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
+    this.closeWorkspace = this.closeWorkspace.bind(this)
   }
 
   inputHandler(event) {
@@ -52,6 +53,10 @@ class App extends React.Component {
     const id = event.target.id
     const note = this.getNoteById(id)
     this.setState({currentNote: note, isWorkspaceOn: true})
+  }
+
+  closeWorkspace() {
+    this.setState({isWorkspaceOn: false})
   }
 
   saveNote() {
@@ -107,6 +112,7 @@ class App extends React.Component {
         inputHandler={this.inputHandler}
         isWorkspaceOn={this.state.isWorkspaceOn}
         saveNote={this.saveNote}
+        closeWorkspace={this.closeWorkspace}
         />
     
       </div>
