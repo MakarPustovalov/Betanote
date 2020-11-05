@@ -6,7 +6,14 @@ import save from '../../assets/img/buttons/save.svg'
 import close from '../../assets/img/buttons/close.svg'
 import deleteBtn from '../../assets/img/buttons/delete.svg'
 
-function WorkSpace({currentNote, inputHandler, saveNote, closeWorkspace, deleteNote}) {
+function WorkSpace({
+  currentNote,
+  inputHandler,
+  saveNote,
+  closeWorkspace,
+  deleteNote,
+  resetChanges
+}) {
   return(
     <>
       <header className="mainside__heading">
@@ -33,7 +40,7 @@ function WorkSpace({currentNote, inputHandler, saveNote, closeWorkspace, deleteN
             <img src={addTag} alt="Tag" />
           </button>
     
-          <button className="mainside__controls-button">
+        <button onClick={resetChanges} className="mainside__controls-button">
             <img src={cancel} alt="Cancel" />
           </button>
     

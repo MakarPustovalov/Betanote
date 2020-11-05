@@ -2,6 +2,15 @@ import React from 'react'
 import MainSide from './Components/MainSide/MainSide';
 import Sidebar from './Components/Sidebar/Sidebar';
 
+/* TODO:
+ * - NodeJS Backend server (with authentification)
+ * - Animation for logo in MainSide 
+ * - Tags
+ * - Tags navigation
+ * - Confirmations (close, reset, delete)
+ * - Preloader
+ */
+
 class App extends React.Component {
   constructor() {
     super()
@@ -17,6 +26,7 @@ class App extends React.Component {
     this.closeWorkspace = this.closeWorkspace.bind(this)
     this.deleteNote = this.deleteNote.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
+    this.resetChanges = this.resetChanges.bind(this)
   }
 
   setLocalStorage() {
@@ -99,6 +109,14 @@ class App extends React.Component {
     this.closeWorkspace()
   }
 
+  resetChanges() {
+    this.setState(state => {
+      return {
+        currentNote: this.getNoteById(state.currentNote.id)
+      }
+    })
+  }
+
   componentDidUpdate() {
     this.setLocalStorage()
   }
@@ -122,6 +140,7 @@ class App extends React.Component {
         saveNote={this.saveNote}
         closeWorkspace={this.closeWorkspace}
         deleteNote={this.deleteNote}
+        resetChanges={this.resetChanges}
         />
     
       </div>

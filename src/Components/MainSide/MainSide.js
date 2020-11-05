@@ -7,7 +7,9 @@ function MainSide({currentNote,
   isWorkspaceOn,
   saveNote,
   closeWorkspace,
-  deleteNote}) {
+  deleteNote,
+  resetChanges
+}) {
   return(
     
     <section className="mainside">
@@ -21,6 +23,7 @@ function MainSide({currentNote,
             saveNote={saveNote}
             closeWorkspace={closeWorkspace}
             deleteNote={deleteNote}
+            resetChanges={resetChanges}
             />
             :
             <div className="mainside__logo-container">
