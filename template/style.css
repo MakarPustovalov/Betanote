@@ -20,6 +20,12 @@ body {
   position: relative;
   width: 420px;
   height: 100%;
+}
+.sidebar__wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,8 +45,6 @@ body {
 }
 .sidebar__container {
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 .sidebar__header {
   width: 100%;
@@ -79,12 +83,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: all 0.1s ease;
 }
 .sidebar__tag-circle {
   height: 14px;
   width: 14px;
   border-radius: 50%;
   background-color: #F03A3A;
+}
+.sidebar__tag:hover {
+  transform: scale(1.03);
+  cursor: pointer;
 }
 .sidebar__tasks {
   padding-top: 35px;
@@ -103,23 +112,34 @@ body {
   font-size: 18px;
   padding-left: 25px;
   padding-right: 18px;
+  transition: all 0.1s ease;
 }
 .sidebar__task-add {
   border: 1px solid #BFBFBF;
+}
+.sidebar__task:hover {
+  transform: scale(1.01);
+  cursor: pointer;
 }
 
 .mainside {
   width: calc(100% - 420px);
   height: 100%;
 }
-.mainside__container {
+.mainside__wrapper {
+  height: 100%;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.mainside__container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 90%;
   margin: 0 auto;
+  padding-top: 6vh;
 }
 .mainside__logo {
   font-family: "Montserrat Alternates";
@@ -130,4 +150,57 @@ body {
   line-height: 120%;
   align-self: center;
   padding-bottom: 30px;
+}
+.mainside__heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  margin-bottom: 35px;
+}
+.mainside__heading-logo {
+  width: 199px;
+}
+.mainside__description {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 24px;
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  min-width: calc(100% - 420px);
+}
+.mainside__controls {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+.mainside__controls-button {
+  border: none;
+  background-color: transparent;
+  transition: all 0.1s ease;
+}
+.mainside__controls-button:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.mainside__main {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 6vh;
+}
+.mainside__textarea {
+  display: block;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: 1px solid #BFBFBF;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 30px;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
 }

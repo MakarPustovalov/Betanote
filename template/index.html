@@ -12,75 +12,102 @@
   <div class="page">
 
     <section class="sidebar">
-      <div class="sidebar__container">
-
-        <div class="sidebar__header">
-
-          <input type="text" class="sidebar__input" placeholder="Search note by tag...">
+      <div class="sidebar__wrapper">
+        <div class="sidebar__container">
   
-          <div class="sidebar__tag-line">
+          <div class="sidebar__header">
   
-            <div class="sidebar__tag">
-              <div class="sidebar__tag-circle"></div>
-              <span class="sidebar__tag-text">Tag Name 1</span>
-            </div>
-  
-            <div class="sidebar__tag">
-              <div class="sidebar__tag-circle"></div>
-              <span class="sidebar__tag-text">Tag Name 2</span>
-            </div>
-  
-            <div class="sidebar__tag">
-              <div class="sidebar__tag-circle"></div>
-              <span class="sidebar__tag-text">Tag Name 3</span>
+            <input type="text" class="sidebar__input" placeholder="Search note by tag...">
+    
+            <div class="sidebar__tag-line">
+    
+              <div class="sidebar__tag">
+                <div class="sidebar__tag-circle"></div>
+                <span class="sidebar__tag-text">Tag Name 1</span>
+              </div>
+    
+              <div class="sidebar__tag">
+                <div class="sidebar__tag-circle"></div>
+                <span class="sidebar__tag-text">Tag Name 2</span>
+              </div>
+    
+              <div class="sidebar__tag">
+                <div class="sidebar__tag-circle"></div>
+                <span class="sidebar__tag-text">Tag Name 3</span>
+              </div>
+    
             </div>
   
           </div>
-
+  
+          <div class="sidebar__tasks">
+  
+  
+            <div class="sidebar__task sidebar__task-add">
+              <span class="sidebar__task-text">Add new task...</span>
+              <img src="img/plus.svg" alt="Add">
+            </div>
+  
+            <div class="sidebar__task">
+              <span class="sidebar__task-text">Task description</span>
+              <div class="sidebar__tag">
+                <div class="sidebar__tag-circle"></div>
+                <span class="sidebar__tag-text">Tag Name 3</span>
+              </div>
+            </div>
+  
+            <div class="sidebar__task">
+              <span class="sidebar__task-text">Task description</span>
+              <div class="sidebar__tag">
+                <div class="sidebar__tag-circle"></div>
+                <span class="sidebar__tag-text">Tag Name 3</span>
+              </div>
+            </div>
+  
+            <div class="sidebar__task">
+              <span class="sidebar__task-text">Task description</span>
+              <div class="sidebar__tag">
+                <div class="sidebar__tag-circle"></div>
+                <span class="sidebar__tag-text">Tag Name 3</span>
+              </div>
+            </div>
+  
+          </div>
+  
         </div>
-
-        <div class="sidebar__tasks">
-
-
-          <div class="sidebar__task sidebar__task-add">
-            <span class="sidebar__task-text">Add new task...</span>
-            <img src="img/plus.svg" alt="Add">
-          </div>
-
-          <div class="sidebar__task">
-            <span class="sidebar__task-text">Task description</span>
-            <div class="sidebar__tag">
-              <div class="sidebar__tag-circle"></div>
-              <span class="sidebar__tag-text">Tag Name 3</span>
-            </div>
-          </div>
-
-          <div class="sidebar__task">
-            <span class="sidebar__task-text">Task description</span>
-            <div class="sidebar__tag">
-              <div class="sidebar__tag-circle"></div>
-              <span class="sidebar__tag-text">Tag Name 3</span>
-            </div>
-          </div>
-
-          <div class="sidebar__task">
-            <span class="sidebar__task-text">Task description</span>
-            <div class="sidebar__tag">
-              <div class="sidebar__tag-circle"></div>
-              <span class="sidebar__tag-text">Tag Name 3</span>
-            </div>
-          </div>
-
-        </div>
-
       </div>
     </section>
 
     <section class="mainside">
-      <div class="mainside__container">
-
-        <img src="img/logo.png" alt="Betanote" class="mainside__logo">
-
+      <div class="mainside__wrapper">
+        <div class="mainside__container">
+  
+          <!-- <img src="img/logo.png" alt="Betanote" class="mainside__logo"> -->
+  
+          <header class="mainside__heading">
+            <img src="img/logo.png" alt="Betanote" class="mainside__heading-logo">
+  
+            <input
+            class="mainside__description"
+            placeholder="Task description"></input>
+  
+            <div class="mainside__controls">
+              <button class="mainside__controls-button"><img src="img/buttons/addTag.svg" alt=""></button>
+              <button class="mainside__controls-button"><img src="img/buttons/cancel.svg" alt=""></button>
+              <button class="mainside__controls-button"><img src="img/buttons/save.svg" alt=""></button>
+              <button class="mainside__controls-button"><img src="img/buttons/close.svg" alt=""></button>
+            </div>
+          </header>
+  
+          <main class="mainside__main">
+  
+            <textarea
+            name="taskContent"
+            class="mainside__textarea"></textarea>
+  
+          </main>
+  
+        </div>
       </div>
     </section>
 
