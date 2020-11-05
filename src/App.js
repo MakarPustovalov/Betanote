@@ -6,7 +6,7 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      notes: JSON.parse(localStorage.getItem('notesData')),
+      notes: JSON.parse(localStorage.getItem('notesData')) ? JSON.parse(localStorage.getItem('notesData')) : [],
       currentNote: {},
       isWorkspaceOn: false,
     }
