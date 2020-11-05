@@ -1,7 +1,7 @@
 import React from 'react'
 import NoteList from '../NoteList/NoteList'
 
-function Sidebar(props) {
+function Sidebar({notes, noteClickHandler}) {
   return(
 
     <section className="sidebar">
@@ -36,7 +36,10 @@ function Sidebar(props) {
   
           </div>
 
-          <NoteList notes={props.notes}/>
+          <NoteList
+          notes={notes}
+          noteClickHandler={noteClickHandler}
+          />
   
         </div>
       </div>

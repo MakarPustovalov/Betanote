@@ -149,7 +149,12 @@ body {
   height: auto;
   line-height: 120%;
   align-self: center;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
+}
+.mainside__logo-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 .mainside__heading {
   width: 100%;
