@@ -6,23 +6,7 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      notes: [
-        {
-          id: `id-1-${(+new Date).toString()}`,
-          description: 'My note 1',
-          content: "Hello world! I'm a note!",
-        },
-        {
-          id: `id-2-${(+new Date).toString()}`,
-          description: 'My note 2',
-          content: "Hello world! I'm a second note!",
-        },
-        {
-          id: `id-3-${(+new Date).toString()}`,
-          description: 'My note 3',
-          content: "Hello world! I'm a third note!",
-        },
-      ],
+      notes: JSON.parse(localStorage.getItem('notesData')),
       currentNote: {},
       isWorkspaceOn: false,
     }
@@ -31,6 +15,11 @@ class App extends React.Component {
     this.saveNote = this.saveNote.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
+  }
+
+  setLocalStorage() {
+    const notesData = JSON.stringify(this.state.notes)
+    localStorage.setItem('notesData', notesData)
   }
 
   inputHandler(event) {
@@ -73,7 +62,7 @@ class App extends React.Component {
           ...state,
           notes: newNotes
         }
-      })
+      }, this.setLocalStorage)
     } else if (!activeNote) {
       const newNotes = this.state.notes
       newNotes.unshift(this.state.currentNote)
@@ -83,7 +72,7 @@ class App extends React.Component {
           ...state,
           notes: newNotes
         }
-      })
+      }, this.setLocalStorage)
     }
   }
 
