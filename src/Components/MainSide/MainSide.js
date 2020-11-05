@@ -1,7 +1,7 @@
 import React from 'react'
 import WorkSpace from '../WorkSpace/WorkSpace'
 
-function MainSide() {
+function MainSide(props) {
   return(
     
     <section className="mainside">
@@ -10,7 +10,11 @@ function MainSide() {
   
           {/* <img src="img/logo.png" alt="Betanote" className="mainside__logo"> */}
 
-          <WorkSpace />
+          <WorkSpace
+          currentNote={props.currentNote}
+          descriptionInputHandler={props.descriptionInputHandler}
+          contentInputHandler={props.contentInputHandler}
+          />
   
         </div>
       </div>

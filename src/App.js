@@ -22,18 +22,49 @@ class App extends React.Component {
           description: 'My note3',
           content: "Hello world! I'm a note!",
         },
-      ]
+      ],
+      currentNote: 
+      {
+        id: (+new Date).toString(),
+        description: '',
+        content: "",
+      },
     }
+    this.descriptionInputHandler = this.descriptionInputHandler.bind(this)
+    this.contentInputHandler = this.descriptionInputHandler.bind(this)
+  }
+
+  descriptionInputHandler(event) {
+    this.setState(state => {
+      return {currentNote: 
+        {...state.currentNote, description: event.target.value}
+      }
+    })
+  }
+
+  contentInputHandler(event) {
+    this.setState(state => {
+      return {currentNote: 
+        {...state.currentNote, content: event.target.value}
+      }
+    })
   }
 
   render() {
+    console.log(this.state)
 
     return (
       <div className="page">
 
-        <Sidebar notes={this.state.notes} />
+        <Sidebar
+        notes={this.state.notes}
+        />
 
-        <MainSide />
+        <MainSide
+        currentNote={this.state.currentNote}
+        descriptionInputHandler={this.descriptionInputHandler}
+        contentInputHandler={this.contentInputHandler}
+        />
     
       </div>
     );
