@@ -23,31 +23,17 @@ class App extends React.Component {
           content: "Hello world! I'm a third note!",
         },
       ],
-      currentNote: 
-      {
-        id: (+new Date).toString(),
-        description: '',
-        content: "",
-      },
+      currentNote: {},
       isWorkspaceOn: false,
     }
-    this.descriptionInputHandler = this.descriptionInputHandler.bind(this)
-    this.contentInputHandler = this.descriptionInputHandler.bind(this)
+    this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
   }
 
-  descriptionInputHandler(event) {
+  inputHandler(event) {
     this.setState(state => {
       return {currentNote: 
-        {...state.currentNote, description: event.target.value}
-      }
-    })
-  }
-
-  contentInputHandler(event) {
-    this.setState(state => {
-      return {currentNote: 
-        {...state.currentNote, content: event.target.value}
+        {...state.currentNote, [event.target.name]: event.target.value}
       }
     })
   }
@@ -67,7 +53,6 @@ class App extends React.Component {
 
   render() {
     console.log(this.state)
-    console.log(this.getNoteById(this.state.notes[1].id))
 
     return (
       <div className="page">
@@ -79,8 +64,7 @@ class App extends React.Component {
 
         <MainSide
         currentNote={this.state.currentNote}
-        descriptionInputHandler={this.descriptionInputHandler}
-        contentInputHandler={this.contentInputHandler}
+        inputHandler={this.inputHandler}
         isWorkspaceOn={this.state.isWorkspaceOn}
         />
     

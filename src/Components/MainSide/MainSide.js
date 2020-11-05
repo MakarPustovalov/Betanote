@@ -3,8 +3,7 @@ import WorkSpace from '../WorkSpace/WorkSpace'
 import logo from '../../assets/img/logo.png'
 
 function MainSide({currentNote,
-  descriptionInputHandler,
-  contentInputHandler,
+  inputHandler,
   isWorkspaceOn}) {
   return(
     
@@ -15,8 +14,7 @@ function MainSide({currentNote,
           {isWorkspaceOn ? 
             <WorkSpace
             currentNote={currentNote}
-            descriptionInputHandler={descriptionInputHandler}
-            contentInputHandler={contentInputHandler}
+            inputHandler={inputHandler}
             />
             :
             <div className="mainside__logo-container">

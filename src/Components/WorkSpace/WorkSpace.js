@@ -5,7 +5,7 @@ import cancel from '../../assets/img/buttons/cancel.svg'
 import save from '../../assets/img/buttons/save.svg'
 import close from '../../assets/img/buttons/close.svg'
 
-function WorkSpace({currentNote, descriptionInputHandler, contentInputHandler}) {
+function WorkSpace({currentNote, inputHandler}) {
   return(
     <>
       <header className="mainside__heading">
@@ -17,8 +17,8 @@ function WorkSpace({currentNote, descriptionInputHandler, contentInputHandler}) 
         <input
         className="mainside__description"
         placeholder="Task description"
-        name="descriptionInput"
-        onChange={descriptionInputHandler}
+        name="description"
+        onChange={inputHandler}
         value={currentNote.description}
         />
     
@@ -47,9 +47,9 @@ function WorkSpace({currentNote, descriptionInputHandler, contentInputHandler}) 
       <main className="mainside__main">
     
         <textarea
-        name="taskContent"
+        name="content"
         className="mainside__textarea"
-        onChange={contentInputHandler}
+        onChange={inputHandler}
         value={currentNote.content}
         />
     
