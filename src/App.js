@@ -28,6 +28,7 @@ class App extends React.Component {
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
+    this.saveNote = this.saveNote.bind(this)
   }
 
   inputHandler(event) {
@@ -51,6 +52,20 @@ class App extends React.Component {
     this.setState({currentNote: note, isWorkspaceOn: true})
   }
 
+  saveNote() {
+    let activeNote = this.getNoteById(this.state.currentNote.id)
+    let newNotes = this.state.notes.map(element => {
+      if (element === activeNote) return this.state.currentNote
+      return element
+    })
+    this.setState(state => {
+      return {
+        ...state,
+        notes: newNotes
+      }
+    })
+  }
+
   render() {
     console.log(this.state)
 
@@ -66,6 +81,7 @@ class App extends React.Component {
         currentNote={this.state.currentNote}
         inputHandler={this.inputHandler}
         isWorkspaceOn={this.state.isWorkspaceOn}
+        saveNote={this.saveNote}
         />
     
       </div>

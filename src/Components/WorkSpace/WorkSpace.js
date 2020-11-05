@@ -5,7 +5,7 @@ import cancel from '../../assets/img/buttons/cancel.svg'
 import save from '../../assets/img/buttons/save.svg'
 import close from '../../assets/img/buttons/close.svg'
 
-function WorkSpace({currentNote, inputHandler}) {
+function WorkSpace({currentNote, inputHandler, saveNote}) {
   return(
     <>
       <header className="mainside__heading">
@@ -32,7 +32,7 @@ function WorkSpace({currentNote, inputHandler}) {
             <img src={cancel} alt="" />
           </button>
     
-          <button className="mainside__controls-button">
+          <button onClick={saveNote} className="mainside__controls-button">
             <img src={save} alt="" />
           </button>
     

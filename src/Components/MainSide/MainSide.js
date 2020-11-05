@@ -4,7 +4,8 @@ import logo from '../../assets/img/logo.png'
 
 function MainSide({currentNote,
   inputHandler,
-  isWorkspaceOn}) {
+  isWorkspaceOn,
+  saveNote}) {
   return(
     
     <section className="mainside">
@@ -15,6 +16,7 @@ function MainSide({currentNote,
             <WorkSpace
             currentNote={currentNote}
             inputHandler={inputHandler}
+            saveNote={saveNote}
             />
             :
             <div className="mainside__logo-container">
