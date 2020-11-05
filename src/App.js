@@ -29,6 +29,7 @@ class App extends React.Component {
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveNote = this.saveNote.bind(this)
+    this.createNewNote =this.createNewNote.bind(this)
   }
 
   inputHandler(event) {
@@ -40,30 +41,53 @@ class App extends React.Component {
   }
 
   getNoteById(id) {
-    let note = this.state.notes.filter(element => {
+    const note = this.state.notes.filter(element => {
       return element.id === id
     })
-    return note[0]
+    if (note.length > 0) return note[0]
+    return false
   }
 
   noteClickHandler(event) {
-    let id = event.target.id
-    let note = this.getNoteById(id)
+    const id = event.target.id
+    const note = this.getNoteById(id)
     this.setState({currentNote: note, isWorkspaceOn: true})
   }
 
   saveNote() {
-    let activeNote = this.getNoteById(this.state.currentNote.id)
-    let newNotes = this.state.notes.map(element => {
-      if (element === activeNote) return this.state.currentNote
-      return element
-    })
-    this.setState(state => {
-      return {
-        ...state,
-        notes: newNotes
-      }
-    })
+    const activeNote = this.getNoteById(this.state.currentNote.id)
+
+    if (activeNote) {
+      const newNotes = this.state.notes.map(element => {
+        if (element === activeNote) return this.state.currentNote
+        return element
+      })
+
+      this.setState(state => {
+        return {
+          ...state,
+          notes: newNotes
+        }
+      })
+    } else if (!activeNote) {
+      const newNotes = this.state.notes
+      newNotes.unshift(this.state.currentNote)
+
+      this.setState(state => {
+        return {
+          ...state,
+          notes: newNotes
+        }
+      })
+    }
+  }
+
+  createNewNote() {
+    this.setState({currentNote: {
+      id: `id-3-${(+new Date).toString()}`,
+      description: '',
+      content: "",
+    }, isWorkspaceOn: true})
   }
 
   render() {
@@ -75,6 +99,7 @@ class App extends React.Component {
         <Sidebar
         notes={this.state.notes}
         noteClickHandler={this.noteClickHandler}
+        createNewNote={this.createNewNote}
         />
 
         <MainSide

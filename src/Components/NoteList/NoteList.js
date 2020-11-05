@@ -1,12 +1,12 @@
 import React from 'react'
 import plus from '../../assets/img/plus.svg'
 
-function NoteList({notes, noteClickHandler}){
+function NoteList({notes, noteClickHandler, createNewNote}){
   return(
   
     <div className="sidebar__notes">
 
-      <div className="sidebar__note sidebar__note-add">
+      <div onClick={createNewNote} className="sidebar__note sidebar__note-add">
         <span className="sidebar__note-text">Add new note...</span>
         <img src={plus} alt="Add" />
       </div>
@@ -14,6 +14,7 @@ function NoteList({notes, noteClickHandler}){
       {notes.map(element => {
         return (
           <div
+          key={element.id}
           id={element.id} 
           className="sidebar__note"
           onClick={noteClickHandler}
