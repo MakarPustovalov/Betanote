@@ -1,1 +1,1 @@
-#Deploy: https://makarpustovalov.github.io/Betanote/
+# Deploy: https://makarpustovalov.github.io/Betanote/
