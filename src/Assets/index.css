@@ -95,10 +95,10 @@ body {
   transform: scale(1.03);
   cursor: pointer;
 }
-.sidebar__tasks {
+.sidebar__notes {
   padding-top: 35px;
 }
-.sidebar__task {
+.sidebar__note {
   width: 100%;
   height: 60px;
   margin-bottom: 33px;
@@ -114,10 +114,10 @@ body {
   padding-right: 18px;
   transition: all 0.1s ease;
 }
-.sidebar__task-add {
+.sidebar__note-add {
   border: 1px solid #BFBFBF;
 }
-.sidebar__task:hover {
+.sidebar__note:hover {
   transform: scale(1.01);
   cursor: pointer;
 }

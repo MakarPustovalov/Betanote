@@ -5,14 +5,33 @@ import Sidebar from './Components/Sidebar/Sidebar';
 class App extends React.Component {
   constructor() {
     super()
+    this.state = {
+      notes: [
+        {
+          id: (+new Date).toString(),
+          description: 'My note',
+          content: "Hello world! I'm a note!",
+        },
+        {
+          id: (+new Date).toString(),
+          description: 'My note2',
+          content: "Hello world! I'm a note!",
+        },
+        {
+          id: (+new Date).toString(),
+          description: 'My note3',
+          content: "Hello world! I'm a note!",
+        },
+      ]
+    }
   }
 
   render() {
 
     return (
-      <div class="page">
+      <div className="page">
 
-        <Sidebar />
+        <Sidebar notes={this.state.notes} />
 
         <MainSide />
     

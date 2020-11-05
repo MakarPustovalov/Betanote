@@ -1,7 +1,7 @@
 import React from 'react'
-import plus from '../../assets/img/plus.svg'
+import NoteList from '../NoteList/NoteList'
 
-function Sidebar() {
+function Sidebar(props) {
   return(
 
     <section className="sidebar">
@@ -35,40 +35,8 @@ function Sidebar() {
             </div>
   
           </div>
-  
-          <div className="sidebar__tasks">
-  
-  
-            <div className="sidebar__task sidebar__task-add">
-              <span className="sidebar__task-text">Add new task...</span>
-              <img src={plus} alt="Add" />
-            </div>
-  
-            <div className="sidebar__task">
-              <span className="sidebar__task-text">Task description</span>
-              <div className="sidebar__tag">
-                <div className="sidebar__tag-circle"></div>
-                <span className="sidebar__tag-text">Tag Name 3</span>
-              </div>
-            </div>
-  
-            <div className="sidebar__task">
-              <span className="sidebar__task-text">Task description</span>
-              <div className="sidebar__tag">
-                <div className="sidebar__tag-circle"></div>
-                <span className="sidebar__tag-text">Tag Name 3</span>
-              </div>
-            </div>
-  
-            <div className="sidebar__task">
-              <span className="sidebar__task-text">Task description</span>
-              <div className="sidebar__tag">
-                <div className="sidebar__tag-circle"></div>
-                <span className="sidebar__tag-text">Tag Name 3</span>
-              </div>
-            </div>
-  
-          </div>
+
+          <NoteList notes={props.notes}/>
   
         </div>
       </div>
