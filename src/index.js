@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './assets/index.css';
-import './assets/reset.css';
+import './Assets/reset.css';
+import './Assets/animate.min.css';
+import './Assets/index.css';
 import App from './App';
 
 ReactDOM.render(

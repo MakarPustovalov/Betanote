@@ -1,6 +1,6 @@
 import React from 'react'
 import WorkSpace from '../WorkSpace/WorkSpace'
-import logo from '../../assets/img/logo.png'
+import logo from '../../Assets/img/logo.png'
 
 function MainSide({currentNote,
   inputHandler,
@@ -26,7 +26,7 @@ function MainSide({currentNote,
             resetChanges={resetChanges}
             />
             :
-            <div className="mainside__logo-container">
+            <div className="mainside__logo-container animate__animated animate__fadeIn">
               <img src={logo} alt="Betanote" className="mainside__logo"></img>
             </div>
           }

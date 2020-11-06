@@ -6,7 +6,7 @@ function Sidebar({notes, noteClickHandler, createNewNote}) {
 
     <section className="sidebar">
       <div className="sidebar__wrapper">
-        <div className="sidebar__container">
+        <div className="sidebar__container animate__animated animate__fadeIn">
   
           <div className="sidebar__header">
   

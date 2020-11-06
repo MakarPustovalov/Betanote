@@ -4,12 +4,13 @@ import Sidebar from './Components/Sidebar/Sidebar';
 
 /* TODO:
  * - NodeJS Backend server (with authentification)
- * - Animation for logo in MainSide 
+ * - [X] Animation when update mainside
  * - Tags
  * - Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
  * - Adaptive for mobile
+ * - [X] Hints for buttons
  */
 
 class App extends React.Component {
