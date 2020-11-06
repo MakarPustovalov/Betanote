@@ -6,11 +6,13 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - NodeJS Backend server (with authentification)
  * - [X] Animation when update mainside
  * - Tags
+ * - Colora
  * - Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
  * - Adaptive for mobile
  * - [X] Hints for buttons
+ * - Validate inputs
  */
 
 class App extends React.Component {
@@ -29,6 +31,7 @@ class App extends React.Component {
     this.deleteNote = this.deleteNote.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
+    this.tagInputHandler = this.tagInputHandler.bind(this)
   }
 
   setLocalStorage() {
@@ -44,18 +47,29 @@ class App extends React.Component {
     })
   }
 
+  noteClickHandler(event) {
+    const id = event.target.id
+    const note = this.getNoteById(id)
+    this.setState({currentNote: note, isWorkspaceOn: true})
+  }
+
+  tagInputHandler(event) {
+    this.setState(state => {
+      return {
+        currentNote: {
+          ...state.currentNote,
+          tag: event.target.value
+        }
+      }
+    })
+  }
+
   getNoteById(id) {
     const note = this.state.notes.filter(element => {
       return element.id === id
     })
     if (note.length > 0) return note[0]
     return false
-  }
-
-  noteClickHandler(event) {
-    const id = event.target.id
-    const note = this.getNoteById(id)
-    this.setState({currentNote: note, isWorkspaceOn: true})
   }
 
   closeWorkspace() {
@@ -95,6 +109,7 @@ class App extends React.Component {
       id: `${(+new Date).toString()}`,
       description: '',
       content: "",
+      tag: ""
     }, isWorkspaceOn: true})
   }
 
@@ -143,6 +158,7 @@ class App extends React.Component {
         closeWorkspace={this.closeWorkspace}
         deleteNote={this.deleteNote}
         resetChanges={this.resetChanges}
+        tagInputHandler={this.tagInputHandler}
         />
     
       </div>

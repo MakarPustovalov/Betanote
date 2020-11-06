@@ -12,8 +12,12 @@ function WorkSpace({
   saveNote,
   closeWorkspace,
   deleteNote,
-  resetChanges
-}) {
+  resetChanges,
+  setTagBtnHandler,
+  tagInputHandler,
+  hideTagInput
+  }){
+
   return(
     <>
       <header className="mainside__heading animate__animated animate__fadeIn">
@@ -29,6 +33,15 @@ function WorkSpace({
         onChange={inputHandler}
         value={currentNote.description}
         />
+
+        <input type="text"
+        className="mainside__tag-input animate__animated"
+        name="tag"
+        placeholder="Enter a tag name..."
+        maxLength="10"
+        onChange={tagInputHandler}
+        value={currentNote.tag}
+        />
     
         <div className="mainside__controls">
           
@@ -36,7 +49,7 @@ function WorkSpace({
             <img src={deleteBtn} alt="Delete" />
           </button>
           
-          <button title="Add tag" className="mainside__controls-button">
+          <button title="Add tag" onClick={setTagBtnHandler} className="mainside__controls-button">
             <img src={addTag} alt="Tag" />
           </button>
     
@@ -56,7 +69,7 @@ function WorkSpace({
     
       </header>
     
-      <main className="mainside__main animate__animated animate__fadeIn">
+      <main onClick={hideTagInput} className="mainside__main animate__animated animate__fadeIn">
     
         <textarea
         name="content"
