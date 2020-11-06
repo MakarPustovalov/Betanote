@@ -68,7 +68,7 @@ body {
 .sidebar__tag-line {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 .sidebar__tag {
   border: 1px solid #F03A3A;
@@ -78,12 +78,16 @@ body {
   font-family: "Roboto";
   font-weight: 400;
   font-size: 12px;
+  margin-left: 15px;
   padding-left: 9px;
   padding-right: 9px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: all 0.1s ease;
+}
+.sidebar__tag:first-child {
+  margin-left: 0;
 }
 .sidebar__tag-circle {
   height: 14px;

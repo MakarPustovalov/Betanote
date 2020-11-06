@@ -28,12 +28,13 @@ class MainSide extends React.Component {
 
   hideTagInput() {
     this.setState({isTagInputShow: false}, () => {
-      const elem = document.querySelector('.mainside__tag-input')
-      if (elem) {
-        elem.classList.remove('animate__fadeInDown')
-        elem.classList.add('animate__fadeOut')
+        const elem = document.querySelector('.mainside__tag-input')
+        if (elem) {
+          elem.classList.remove('animate__fadeInDown')
+          elem.classList.add('animate__fadeOut')
+        }
       }
-    })
+    )
   }
 
   render() {

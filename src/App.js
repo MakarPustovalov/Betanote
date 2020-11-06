@@ -5,8 +5,9 @@ import Sidebar from './Components/Sidebar/Sidebar';
 /* TODO:
  * - NodeJS Backend server (with authentification)
  * - [X] Animation when update mainside
- * - Tags
- * - Colora
+ * - [X] Tags
+ * - Colors
+ * - Last tags
  * - Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
@@ -19,9 +20,11 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      notes: JSON.parse(localStorage.getItem('notesData')) ? JSON.parse(localStorage.getItem('notesData')) : [],
+      notes: JSON.parse(localStorage.getItem('notesData')) ?
+      JSON.parse(localStorage.getItem('notesData')) : [],
       currentNote: {},
       isWorkspaceOn: false,
+      lastTags: []
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
@@ -32,6 +35,7 @@ class App extends React.Component {
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
     this.tagInputHandler = this.tagInputHandler.bind(this)
+    this.getLastTags = this.getLastTags.bind(this)
   }
 
   setLocalStorage() {
@@ -55,13 +59,14 @@ class App extends React.Component {
 
   tagInputHandler(event) {
     this.setState(state => {
-      return {
-        currentNote: {
-          ...state.currentNote,
-          tag: event.target.value
+        return {
+          currentNote: {
+            ...state.currentNote,
+            tag: event.target.value
+          }
         }
       }
-    })
+    )
   }
 
   getNoteById(id) {
@@ -73,44 +78,58 @@ class App extends React.Component {
   }
 
   closeWorkspace() {
-    this.setState({isWorkspaceOn: false}, this.clearCurrentNote())
+    this.setState({isWorkspaceOn: false}, () => {
+      this.clearCurrentNote()
+      this.getLastTags()
+    })
   }
 
   saveNote() {
     const activeNote = this.getNoteById(this.state.currentNote.id)
 
     if (activeNote) {
+      //Updating notesArr
       const newNotes = this.state.notes.map(element => {
         if (element === activeNote) return this.state.currentNote
         return element
       })
 
       this.setState(state => {
-        return {
-          ...state,
-          notes: newNotes
+          return {
+            ...state,
+            notes: newNotes
+          }
+        }, () => {
+          this.setLocalStorage()
+          this.getLastTags()
         }
-      }, this.setLocalStorage)
+      )
     } else if (!activeNote) {
+      //Adding new note to notesArr
       const newNotes = this.state.notes
       newNotes.unshift(this.state.currentNote)
 
       this.setState(state => {
-        return {
-          ...state,
-          notes: newNotes
+          return {
+            ...state,
+            notes: newNotes
+          }
+        }, () => {
+          this.setLocalStorage()
+          this.getLastTags()
         }
-      }, this.setLocalStorage)
+      )
     }
   }
 
   createNewNote() {
     this.setState({currentNote: {
-      id: `${(+new Date).toString()}`,
-      description: '',
-      content: "",
-      tag: ""
-    }, isWorkspaceOn: true})
+        id: `${(+new Date).toString()}`,
+        description: '',
+        content: "",
+        tag: ""
+      }, isWorkspaceOn: true}
+    )
   }
 
   clearCurrentNote() {
@@ -119,6 +138,7 @@ class App extends React.Component {
 
   deleteNote() {
     const activeNote = this.getNoteById(this.state.currentNote.id)
+    //filter deleted note from notes arr
     const newNotes = this.state.notes.filter(elem => {
       return elem !== activeNote
     })
@@ -128,10 +148,33 @@ class App extends React.Component {
 
   resetChanges() {
     this.setState(state => {
-      return {
-        currentNote: this.getNoteById(state.currentNote.id)
+        return {
+          currentNote: this.getNoteById(state.currentNote.id)
+        }
       }
-    })
+    )
+  }
+
+  getLastTags() {
+    const tagsArr = this.state.notes.map(elem => elem.tag)
+    const cleanTagsArr = []
+    //Clear dublicates
+    for (let i = 0; i < tagsArr.length; i++) {
+      const elem = tagsArr[i]
+      if (!(elem === tagsArr[i - 1])) {
+        cleanTagsArr.push(elem)
+      }
+    }
+    const newTags = []
+    //Shortening to 3
+    for (let i = 0; i < 3 && i < cleanTagsArr.length; i++) {
+      newTags.push(cleanTagsArr[i])
+    }
+    this.setState({lastTags: newTags})
+  }
+
+  componentDidMount() {
+    this.getLastTags()
   }
 
   componentDidUpdate() {
@@ -148,6 +191,7 @@ class App extends React.Component {
         notes={this.state.notes}
         noteClickHandler={this.noteClickHandler}
         createNewNote={this.createNewNote}
+        lastTags={this.state.lastTags}
         />
 
         <MainSide
