@@ -101,7 +101,7 @@ $grey5: #5E5E5E;
   &__tag-line{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   &__tag{
@@ -110,6 +110,7 @@ $grey5: #5E5E5E;
     width: 108px;
     height: 30px;
     @include robotoR (12px);
+    margin-left: 15px;
     padding-left: 9px;
     padding-right: 9px;
     display: flex;
@@ -120,11 +121,21 @@ $grey5: #5E5E5E;
     -o-transition: all 0.10s ease;
     transition: all 0.10s ease;
 
+    &:first-child{
+      margin-left: 0;
+    }
+
     &-circle{
       height: 14px;
       width: 14px;
       border-radius: 50%;
       background-color: $red1;
+    }
+
+    span{
+      width: calc(100% - 14px);
+      margin-left: 9px;
+      text-align: center;
     }
 
     &:hover{
@@ -206,6 +217,8 @@ $grey5: #5E5E5E;
   }
 
   &__heading{
+    z-index: 2;
+    position: relative;
     width: 100%;
     display: flex;
     align-items: center;
@@ -265,5 +278,19 @@ $grey5: #5E5E5E;
     padding: 30px;
     @include robotoR(18px);
     line-height: 21px;
+  }
+
+  &__tag-input{
+    visibility: hidden;
+    position: absolute;
+    top: 125%;
+    right: 0;
+    border: 1px solid $grey4;
+    border-radius: 6px;
+    width: 250px;
+    height: 45px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
   }
 }

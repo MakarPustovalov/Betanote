@@ -22,7 +22,7 @@ function NoteList({notes, noteClickHandler, createNewNote}){
             <span className="sidebar__note-text">{element.description}</span>
             <div className="sidebar__tag">
               <div className="sidebar__tag-circle"></div>
-              <span className="sidebar__tag-text">Tag Name 3</span>
+              <span className="sidebar__tag-text">{element.tag}</span>
             </div>
           </div>
         )

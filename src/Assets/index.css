@@ -68,7 +68,7 @@ body {
 .sidebar__tag-line {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 .sidebar__tag {
   border: 1px solid #F03A3A;
@@ -78,6 +78,7 @@ body {
   font-family: "Roboto";
   font-weight: 400;
   font-size: 12px;
+  margin-left: 15px;
   padding-left: 9px;
   padding-right: 9px;
   display: flex;
@@ -85,11 +86,19 @@ body {
   justify-content: space-between;
   transition: all 0.1s ease;
 }
+.sidebar__tag:first-child {
+  margin-left: 0;
+}
 .sidebar__tag-circle {
   height: 14px;
   width: 14px;
   border-radius: 50%;
   background-color: #F03A3A;
+}
+.sidebar__tag span {
+  width: calc(100% - 14px);
+  margin-left: 9px;
+  text-align: center;
 }
 .sidebar__tag:hover {
   transform: scale(1.03);
@@ -157,6 +166,8 @@ body {
   align-items: center;
 }
 .mainside__heading {
+  z-index: 2;
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -208,4 +219,17 @@ body {
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
+}
+.mainside__tag-input {
+  visibility: hidden;
+  position: absolute;
+  top: 125%;
+  right: 0;
+  border: 1px solid #BFBFBF;
+  border-radius: 6px;
+  width: 250px;
+  height: 45px;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
 }

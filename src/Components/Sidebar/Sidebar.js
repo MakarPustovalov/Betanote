@@ -1,7 +1,7 @@
 import React from 'react'
 import NoteList from '../NoteList/NoteList'
 
-function Sidebar({notes, noteClickHandler, createNewNote}) {
+function Sidebar({notes, noteClickHandler, createNewNote, lastTags}) {
   return(
 
     <section className="sidebar">
@@ -16,21 +16,17 @@ function Sidebar({notes, noteClickHandler, createNewNote}) {
             placeholder="Search note by tag..." />
     
             <div className="sidebar__tag-line">
-    
-              <div className="sidebar__tag">
-                <div className="sidebar__tag-circle"></div>
-                <span className="sidebar__tag-text">Tag Name 1</span>
-              </div>
-    
-              <div className="sidebar__tag">
-                <div className="sidebar__tag-circle"></div>
-                <span className="sidebar__tag-text">Tag Name 2</span>
-              </div>
-    
-              <div className="sidebar__tag">
-                <div className="sidebar__tag-circle"></div>
-                <span className="sidebar__tag-text">Tag Name 3</span>
-              </div>
+
+              {lastTags.length > 0 ?
+                lastTags.map(tag => {
+                  return(
+                    <div key={Math.floor(Math.random() * 1000)} className="sidebar__tag">
+                      <div className="sidebar__tag-circle"></div>
+                      <span className="sidebar__tag-text">{tag}</span>
+                    </div>
+                  )
+                }) : false
+              }
     
             </div>
   
