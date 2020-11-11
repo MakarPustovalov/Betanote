@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Roboto:wght@400;500&display=swap');
 
 *{
   box-sizing: border-box;
@@ -23,8 +23,14 @@ body {
   font-size: $size;
 }
 
-@mixin monsterratA ($size: 18px) {
-  font-family: 'Montserrat Alternates';
+@mixin montserratR ($size: 18px) {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: $size;
+}
+
+@mixin montserratM ($size: 18px) {
+  font-family: 'Montserrat';
   font-weight: 500;
   font-size: $size;
 }
@@ -42,6 +48,33 @@ $grey5: #5E5E5E;
   height: 100vh;
   width: 100%;
   display: flex;
+}
+
+.arrow{
+  &::before{
+    content: url('../Assets/img/guide/arrow.svg');
+    position: absolute;
+    left: -100px;
+    top: 50%;
+  }
+}
+
+.arrow1{
+  &::before{
+    content: url('../Assets/img/guide/arrow1.svg');
+    position: absolute;
+    left: -35px;
+    bottom: 50%;
+  }
+}
+
+.arrow2{
+  &::before{
+    content: url('../Assets/img/guide/arrow2.svg');
+    position: absolute;
+    right: 37px;
+    top: -60px;
+  }
 }
 
 .sidebar{
@@ -192,6 +225,7 @@ $grey5: #5E5E5E;
   }
 
   &__container{
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -201,18 +235,28 @@ $grey5: #5E5E5E;
     padding-top: 6vh;
   }
 
-  &__logo{
-    @include monsterratA(96px);
+  &__welcome{
+    @include montserratM(58px);
+    margin-bottom: 35px;
     text-align: center;
+  }
+
+  &__tip{
+    @include montserratR(26px);
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  &__logo{
     height: auto;
-    line-height: 120%;
-    align-self: center;
-    padding-bottom: 50px;
 
     &-container{
       height: 100%;
       display: flex;
       align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      padding-bottom: 50px;
     }
   }
 
@@ -227,7 +271,8 @@ $grey5: #5E5E5E;
     margin-bottom: 35px;
 
     &-logo{
-      width: 250px;
+      max-width: 250px;
+      width: calc(70% - 250px);
     }
   }
 
@@ -236,7 +281,7 @@ $grey5: #5E5E5E;
     border: none;
     background-color: transparent;
     text-align: center;
-    min-width: calc(100% - 600px);
+    min-width: 20%;
   }
 
   &__controls{
@@ -245,6 +290,7 @@ $grey5: #5E5E5E;
     justify-content: space-between;
 
     &-button{
+      max-width: 16%;
       border: none;
       background-color: transparent;
       -webkit-transition: all 0.10s ease;
@@ -257,6 +303,10 @@ $grey5: #5E5E5E;
         -ms-transform: scale(1.05);
         transform: scale(1.05);
         cursor: pointer;
+      }
+
+      >img{
+        width: 100%;
       }
     }
   }
@@ -292,5 +342,34 @@ $grey5: #5E5E5E;
     padding-left: 15px;
     padding-right: 15px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  }
+
+  &__guide-window{
+    position: absolute;
+    top: calc(6vh + 20px + 65px + 30px);
+    right: 28px;
+    background-color: $grey0;
+    min-height: 100px;
+    min-width: 370px;
+    box-shadow: 0px 1px 4px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 17px;
+  }
+
+  &__guide-text{
+    @include montserratR(18px);
+    text-align: center;
+    margin-bottom: 17px;
+  }
+
+  &__guide-button{
+    @include montserratR(14px);
+    display: block;
+    margin: 0 auto;
+    min-width: 90px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid $green1;
+    border-radius: 10px;
   }
 }

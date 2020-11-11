@@ -48,7 +48,7 @@ class MainSide extends React.Component {
               <WorkSpace
               currentNote={this.props.currentNote}
               inputHandler={this.props.inputHandler}
-              saveNote={this.props.saveNote}
+              saveHandler={this.props.saveHandler}
               closeWorkspace={this.props.closeWorkspace}
               deleteNote={this.props.deleteNote}
               resetChanges={this.props.resetChanges}
@@ -58,7 +58,18 @@ class MainSide extends React.Component {
               />
               :
               <div className="mainside__logo-container animate__animated animate__fadeIn">
+                
+                {document.cookie === '' ?
+                  <p className="mainside__welcome">Welcome to</p>
+                : false}
+
                 <img src={logo} alt="Betanote" className="mainside__logo"></img>
+
+                {document.cookie === '' ?
+                  <p className="mainside__tip">Click to button “Add a new task”<br/>
+                  to create a task</p>
+                : false}
+
               </div>
             }
 

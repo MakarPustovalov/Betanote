@@ -13,9 +13,10 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - Preloader
  * - Adaptive for mobile
  * - [X] Hints for buttons
- * - Validate inputs
+ * - [X] Validate inputs
  * - Animation for tags line
  * - Quick guide
+ * - !BUG! reset changes in new task = error
  */
 
 class App extends React.Component {
@@ -30,7 +31,8 @@ class App extends React.Component {
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
-    this.saveNote = this.saveNote.bind(this)
+    this.saveCurrentNote = this.saveCurrentNote.bind(this)
+    this.saveHandler = this.saveHandler.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
     this.deleteNote = this.deleteNote.bind(this)
@@ -86,9 +88,45 @@ class App extends React.Component {
     })
   }
 
-  saveNote() {
+  saveCurrentNote() {
     const activeNote = this.getNoteById(this.state.currentNote.id)
 
+    if (activeNote) {
+      //Updating notesArr
+      const newNotes = this.state.notes.map(element => {
+        if (element === activeNote) return this.state.currentNote
+        return element
+      })
+
+      this.setState(state => {
+          return {
+            ...state,
+            notes: newNotes
+          }
+        }, () => {
+          this.setLocalStorage()
+          this.getLastTags()
+        }
+      )
+    } else if (!activeNote) {
+      //Adding new note to notesArr
+      const newNotes = this.state.notes
+      newNotes.unshift(this.state.currentNote)
+
+      this.setState(state => {
+          return {
+            ...state,
+            notes: newNotes
+          }
+        }, () => {
+          this.setLocalStorage()
+          this.getLastTags()
+        }
+      )
+    }
+  }
+
+  saveHandler() {
     if (this.state.currentNote.description === '') {
       this.setState(state => {
         return(
@@ -99,43 +137,12 @@ class App extends React.Component {
             }
           }
         )
-      }, () => {
-        if (activeNote) {
-          //Updating notesArr
-          const newNotes = this.state.notes.map(element => {
-            if (element === activeNote) return this.state.currentNote
-            return element
-          })
-    
-          this.setState(state => {
-              return {
-                ...state,
-                notes: newNotes
-              }
-            }, () => {
-              this.setLocalStorage()
-              this.getLastTags()
-            }
-          )
-        } else if (!activeNote) {
-          //Adding new note to notesArr
-          const newNotes = this.state.notes
-          newNotes.unshift(this.state.currentNote)
-    
-          this.setState(state => {
-              return {
-                ...state,
-                notes: newNotes
-              }
-            }, () => {
-              this.setLocalStorage()
-              this.getLastTags()
-            }
-          )
-        }
-      })
+      }, this.saveCurrentNote())
+    } else {
+      this.saveCurrentNote()
     }
     
+    this.setInitialCookie()
   }
 
   createNewNote() {
@@ -158,6 +165,7 @@ class App extends React.Component {
     const newNotes = this.state.notes.filter(elem => {
       return elem !== activeNote
     })
+
     this.setState({notes: newNotes})
     this.closeWorkspace()
   }
@@ -173,6 +181,7 @@ class App extends React.Component {
 
   getLastTags() {
     const tagsArr = this.state.notes.map(elem => elem.tag)
+
     const cleanTagsArr = []
     //Clear dublicates
     for (let i = 0; i < tagsArr.length; i++) {
@@ -181,16 +190,47 @@ class App extends React.Component {
         cleanTagsArr.push(elem)
       }
     }
+
     const newTags = []
     //Shortening to 3
     for (let i = 0; i < 3 && i < cleanTagsArr.length; i++) {
       newTags.push(cleanTagsArr[i])
     }
+
     this.setState({lastTags: newTags})
+  }
+
+  setInitialCookie() {
+    function setCookie(name, value, options = {}) {
+      options = {
+        path: '/',
+        ...options
+      };
+
+      if (options.expires instanceof Date) {
+        options.expires = options.expires.toUTCString();
+      }
+
+      let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+      for (let optionKey in options) {
+        updatedCookie += "; " + optionKey;
+        let optionValue = options[optionKey];
+        if (optionValue !== true) {
+          updatedCookie += "=" + optionValue;
+        }
+      }
+    
+      document.cookie = updatedCookie;
+    }
+
+    let date = new Date(Date.now() + 15552000e3);
+    date = date.toUTCString();
+    setCookie('needGuide', false, {expires: date})
   }
 
   componentDidMount() {
     this.getLastTags()
+    console.log(document.cookie)
   }
 
   componentDidUpdate() {
@@ -214,7 +254,7 @@ class App extends React.Component {
         currentNote={this.state.currentNote}
         inputHandler={this.inputHandler}
         isWorkspaceOn={this.state.isWorkspaceOn}
-        saveNote={this.saveNote}
+        saveHandler={this.saveHandler}
         closeWorkspace={this.closeWorkspace}
         deleteNote={this.deleteNote}
         resetChanges={this.resetChanges}
