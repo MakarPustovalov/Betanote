@@ -54,18 +54,19 @@ class MainSide extends React.Component {
               resetChanges={this.props.resetChanges}
               setTagBtnHandler={this.setTagBtnHandler}
               tagInputHandler={this.props.tagInputHandler}
+              getCookie={this.props.getCookie}
               hideTagInput={this.hideTagInput}
               />
               :
               <div className="mainside__logo-container animate__animated animate__fadeIn">
                 
-                {document.cookie === '' ?
+                {!(this.props.getCookie('needGuide')) ?
                   <p className="mainside__welcome">Welcome to</p>
                 : false}
 
                 <img src={logo} alt="Betanote" className="mainside__logo"></img>
 
-                {document.cookie === '' ?
+                {!(this.props.getCookie('needGuide')) ?
                   <p className="mainside__tip">Click to button “Add a new task”<br/>
                   to create a task</p>
                 : false}

@@ -236,9 +236,15 @@ class App extends React.Component {
     setCookie('needGuide', false, {expires: date})
   }
 
+  getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
   componentDidMount() {
     this.getLastTags()
-    console.log(document.cookie)
   }
 
   componentDidUpdate() {
@@ -267,6 +273,7 @@ class App extends React.Component {
         deleteNote={this.deleteNote}
         resetChanges={this.resetChanges}
         tagInputHandler={this.tagInputHandler}
+        getCookie={this.getCookie}
         />
     
       </div>
