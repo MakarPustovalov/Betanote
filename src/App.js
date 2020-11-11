@@ -6,14 +6,16 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - NodeJS Backend server (with authentification)
  * - [X] Animation when update mainside
  * - [X] Tags
- * - Colors
- * - Last tags
+ * - --Colors--
+ * - [X] Last tags
  * - Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
  * - Adaptive for mobile
  * - [X] Hints for buttons
  * - Validate inputs
+ * - Animation for tags line
+ * - Quick guide
  */
 
 class App extends React.Component {
@@ -87,39 +89,53 @@ class App extends React.Component {
   saveNote() {
     const activeNote = this.getNoteById(this.state.currentNote.id)
 
-    if (activeNote) {
-      //Updating notesArr
-      const newNotes = this.state.notes.map(element => {
-        if (element === activeNote) return this.state.currentNote
-        return element
+    if (this.state.currentNote.description === '') {
+      this.setState(state => {
+        return(
+          {
+            currentNote: {
+              ...state.currentNote,
+              description: "New note"
+            }
+          }
+        )
+      }, () => {
+        if (activeNote) {
+          //Updating notesArr
+          const newNotes = this.state.notes.map(element => {
+            if (element === activeNote) return this.state.currentNote
+            return element
+          })
+    
+          this.setState(state => {
+              return {
+                ...state,
+                notes: newNotes
+              }
+            }, () => {
+              this.setLocalStorage()
+              this.getLastTags()
+            }
+          )
+        } else if (!activeNote) {
+          //Adding new note to notesArr
+          const newNotes = this.state.notes
+          newNotes.unshift(this.state.currentNote)
+    
+          this.setState(state => {
+              return {
+                ...state,
+                notes: newNotes
+              }
+            }, () => {
+              this.setLocalStorage()
+              this.getLastTags()
+            }
+          )
+        }
       })
-
-      this.setState(state => {
-          return {
-            ...state,
-            notes: newNotes
-          }
-        }, () => {
-          this.setLocalStorage()
-          this.getLastTags()
-        }
-      )
-    } else if (!activeNote) {
-      //Adding new note to notesArr
-      const newNotes = this.state.notes
-      newNotes.unshift(this.state.currentNote)
-
-      this.setState(state => {
-          return {
-            ...state,
-            notes: newNotes
-          }
-        }, () => {
-          this.setLocalStorage()
-          this.getLastTags()
-        }
-      )
     }
+    
   }
 
   createNewNote() {
@@ -161,7 +177,7 @@ class App extends React.Component {
     //Clear dublicates
     for (let i = 0; i < tagsArr.length; i++) {
       const elem = tagsArr[i]
-      if (!(elem === tagsArr[i - 1])) {
+      if (!(elem === tagsArr[i - 1] || elem === '')) {
         cleanTagsArr.push(elem)
       }
     }
@@ -182,7 +198,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
 
     return (
       <div className="page">

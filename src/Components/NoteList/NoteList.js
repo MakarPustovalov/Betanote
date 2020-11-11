@@ -20,10 +20,13 @@ function NoteList({notes, noteClickHandler, createNewNote}){
           onClick={noteClickHandler}
           >
             <span className="sidebar__note-text">{element.description}</span>
-            <div className="sidebar__tag">
+            {element.tag !== '' ? 
+            <div className="sidebar__tag" onClick={(event) => {event.stopPropagation()}}>
               <div className="sidebar__tag-circle"></div>
               <span className="sidebar__tag-text">{element.tag}</span>
             </div>
+            : false  
+            }
           </div>
         )
       })}
