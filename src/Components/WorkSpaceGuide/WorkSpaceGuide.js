@@ -48,7 +48,6 @@ class WorkSpaceGuide extends React.Component {
           <div className={`mainside__guide-window ${this.state.class}`}>
             <p className="mainside__guide-text">{this.state.text}</p>
             <button onClick={this.buttonHandler} className="mainside__guide-button">Next</button>
-            {console.log(this.state)}
           </div>
           : false}
       </>

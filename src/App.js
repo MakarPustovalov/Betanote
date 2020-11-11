@@ -15,8 +15,9 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - [X] Hints for buttons
  * - [X] Validate inputs
  * - Animation for tags line
- * - Quick guide
- * - !BUG! reset changes in new task = error
+ * - [X] Quick guide
+ * - Animation for guide
+ * - [X] !BUG! reset changes in new task = error
  */
 
 class App extends React.Component {
@@ -69,8 +70,7 @@ class App extends React.Component {
             tag: event.target.value
           }
         }
-      }
-    )
+    })
   }
 
   getNoteById(id) {
@@ -106,8 +106,7 @@ class App extends React.Component {
         }, () => {
           this.setLocalStorage()
           this.getLastTags()
-        }
-      )
+      })
     } else if (!activeNote) {
       //Adding new note to notesArr
       const newNotes = this.state.notes
@@ -121,8 +120,7 @@ class App extends React.Component {
         }, () => {
           this.setLocalStorage()
           this.getLastTags()
-        }
-      )
+      })
     }
   }
 
@@ -151,8 +149,7 @@ class App extends React.Component {
         description: '',
         content: "",
         tag: ""
-      }, isWorkspaceOn: true}
-    )
+      }, isWorkspaceOn: true})
   }
 
   clearCurrentNote() {
@@ -171,12 +168,23 @@ class App extends React.Component {
   }
 
   resetChanges() {
-    this.setState(state => {
-        return {
-          currentNote: this.getNoteById(state.currentNote.id)
-        }
-      }
-    )
+    if (this.getNoteById(this.state.currentNote.id)) {
+      this.setState(state => {
+          return {
+            currentNote: this.getNoteById(state.currentNote.id)
+          }
+      })
+    } else {
+      this.setState(state => {
+          return {
+            currentNote: {
+              ...state.currentNote,
+              description: '',
+              content: ''
+            }
+          }
+      })
+    }
   }
 
   getLastTags() {
