@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 
   noteClickHandler(event) {
-    const id = event.target.id
+    const id = event.currentTarget.id
     const note = this.getNoteById(id)
     this.setState({currentNote: note, isWorkspaceOn: true})
   }
@@ -243,6 +243,8 @@ class App extends React.Component {
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
   }
+
+
 
   componentDidMount() {
     this.getLastTags()

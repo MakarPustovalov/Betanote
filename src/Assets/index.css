@@ -151,6 +151,20 @@ body {
   transform: scale(1.01);
   cursor: pointer;
 }
+.sidebar__currentSearch {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 35px;
+}
+.sidebar__currentSearch > span {
+  color: #F03A3A;
+  margin-right: 7px;
+}
+.sidebar__currentSearch > img {
+  cursor: pointer;
+}
 
 .mainside {
   width: calc(100% - 420px);
