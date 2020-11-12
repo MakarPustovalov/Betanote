@@ -26,7 +26,6 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    console.log(this.state)
 
     return(
       <section className="sidebar">

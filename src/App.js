@@ -8,7 +8,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - [X] Tags
  * - --Colors--
  * - [X] Last tags
- * - Tags navigation
+ * - [X] Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
  * - Adaptive for mobile

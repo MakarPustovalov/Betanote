@@ -73,6 +73,7 @@ function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickH
 
             )
           }
+          return false
         })
 
       }
