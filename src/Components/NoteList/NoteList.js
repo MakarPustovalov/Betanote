@@ -1,9 +1,8 @@
 import React from 'react'
 import plus from '../../Assets/img/plus.svg'
 
-function NoteList({notes, noteClickHandler, createNewNote}){
+function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickHandler}){
   return(
-  
     <div className="sidebar__notes">
 
       <div onClick={createNewNote} className="sidebar__note sidebar__note-add">
@@ -11,28 +10,75 @@ function NoteList({notes, noteClickHandler, createNewNote}){
         <img src={plus} alt="Add" />
       </div>
 
-      {notes.map(element => {
-        return (
-          <div
-          key={element.id}
-          id={element.id} 
-          className="sidebar__note animate__animated animate__fadeIn"
-          onClick={noteClickHandler}
-          >
-            <span className="sidebar__note-text">{element.description}</span>
-            {element.tag !== '' ? 
-            <div className="sidebar__tag" onClick={(event) => {event.stopPropagation()}}>
-              <div className="sidebar__tag-circle"></div>
-              <span className="sidebar__tag-text">{element.tag}</span>
+      {
+        currentTag === '' ? //if current tag not specified (no searching by tag)
+        
+        notes.map(element => {
+          return (
+
+            <div
+              key={element.id}
+              id={element.id} 
+              className="sidebar__note animate__animated animate__fadeIn"
+              onClick={noteClickHandler}
+            >
+
+              <span className="sidebar__note-text">{element.description}</span>
+
+              {element.tag !== '' ? 
+                <div
+                  id={element.tag}
+                  className="sidebar__tag"
+                  onClick={tagClickHandler}
+                >
+                  <div className="sidebar__tag-circle"></div>
+                  <span className="sidebar__tag-text">{element.tag}</span>
+                </div>
+                : false  
+              }
+
             </div>
-            : false  
-            }
-          </div>
-        )
-      })}
+
+          )
+        })
+
+        : //display notes with tag which is being searched
+
+        notes.map(element => {
+          if (element.tag === currentTag) {
+            return (
+
+              <div
+              key={element.id}
+              id={element.id} 
+              className="sidebar__note animate__animated animate__fadeIn"
+              onClick={noteClickHandler}
+              >
+
+                <span className="sidebar__note-text">{element.description}</span>
+
+                {element.tag !== '' ? 
+                  <div
+                    id={element.tag}
+                    className="sidebar__tag"
+                    onClick={tagClickHandler}
+                  >
+                    <div className="sidebar__tag-circle"></div>
+                    <span className="sidebar__tag-text">{element.tag}</span>
+                  </div>
+                  : false  
+                }
+
+              </div>
+
+            )
+          }
+          return false
+        })
+
+      }
 
     </div>
-
   )
 }
 

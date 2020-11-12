@@ -211,6 +211,21 @@ $grey5: #5E5E5E;
       cursor: pointer;
     }
   }
+
+  &__currentSearch {
+    @include robotoR(20px);
+    text-align: center;
+    padding-top: 35px;
+
+    >span{
+      color: $red1;
+      margin-right: 7px;
+    }
+
+    >img{
+      cursor: pointer;
+    }
+  }
 }
 
 .mainside{
