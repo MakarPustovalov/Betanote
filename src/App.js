@@ -18,6 +18,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - [X] Quick guide
  * - Animation for guide
  * - [X] !BUG! reset changes in new task = error
+ * - [X] Favicon & title
  */
 
 class App extends React.Component {

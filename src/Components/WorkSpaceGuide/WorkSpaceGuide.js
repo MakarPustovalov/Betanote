@@ -5,7 +5,7 @@ class WorkSpaceGuide extends React.Component {
     super()
     this.state = {
       step: 0,
-      text: 'Write content of your task here',
+      text: 'Write content of your note here',
       class: 'arrow'
     }
     this.buttonHandler = this.buttonHandler.bind(this)
@@ -26,9 +26,9 @@ class WorkSpaceGuide extends React.Component {
 
   setText() {
     if (this.state.step === 1) {
-      this.setState({text: 'Enter description of your task here'})
+      this.setState({text: 'Enter description of your note here'})
     } else if (this.state.step === 2) {
-      this.setState({text: 'Remember to save your task here'})
+      this.setState({text: 'Remember to save your note here'})
     }
   }
 

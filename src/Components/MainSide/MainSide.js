@@ -67,8 +67,8 @@ class MainSide extends React.Component {
                 <img src={logo} alt="Betanote" className="mainside__logo"></img>
 
                 {!(this.props.getCookie('needGuide')) ?
-                  <p className="mainside__tip">Click to button “Add a new task”<br/>
-                  to create a task</p>
+                  <p className="mainside__tip">Click to button “Add a new note”<br/>
+                  to create a note</p>
                 : false}
 
               </div>
