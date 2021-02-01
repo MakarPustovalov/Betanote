@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const indexRouter = require('./routes/indexRouter')
 const authRouter = require('./routes/authRouter')
+const mongoose = require('mongoose')
 
 const app = express()
 
@@ -33,7 +34,7 @@ app.use((err, req, res, next) => {
 
 const start = () => {
   try {
-    // mongoose.connect(config.mongooseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+    mongoose.connect(config.mongooseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     app.listen(PORT, () => {
       console.log('Server is running on port', PORT)
     })

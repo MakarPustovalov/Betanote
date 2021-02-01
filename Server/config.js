@@ -4,7 +4,7 @@ module.exports = {
     refreshSecret: "mysecret-lkm13diaxyz042w64",
   },
   port: 5000,
-  mongooseUrl: 'KhPlborEBSxHWYlj',
+  mongooseUrl: 'mongodb+srv://admin:KhPlborEBSxHWYlj@cluster0.iduaz.mongodb.net/betanote?retryWrites=true&w=majority',
   cors: {
     origin: "http://localhost:3000",
     optionsSuccessStatus: 200,
