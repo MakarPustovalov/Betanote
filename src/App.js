@@ -17,8 +17,10 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - Animation for tags line
  * - [X] Quick guide
  * - Animation for guide
- * - [X] !BUG! reset changes in new task = error
  * - [X] Favicon & title
+ * - DOCUMENTATION!!!
+ * FIXME:
+ * - [X] !BUG! reset changes in new task = error
  */
 
 class App extends React.Component {
