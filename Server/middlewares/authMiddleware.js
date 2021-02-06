@@ -1,24 +1,36 @@
 const { verifyAccessToken } = require('../authHelper')
+const { UnathorizedError, ExpiredTokenError } = require('../errors/Errors')
 
 const authMW = (req, res, next) => {
   try {
     if(req.method === "OPTIONS") {
       next()
     }
-    
-    const { accessToken } = req.signedCookies
 
-    if(!accessToken) return next('Not logged in')
+    const { accessToken, refreshToken } = req.signedCookies
+    
+    if ((!accessToken) && (!refreshToken)) {
+      return next(new UnathorizedError('Not logged in'))
+    }
+
+    if ((refreshToken) && (!accessToken)) {
+      return next(new ExpiredTokenError('Access token expired'))
+    }
 
     const payload = verifyAccessToken(accessToken)
-    if (!payload) return next('Not logged in')
-    req.data = {
-      id: payload.id
-    }
+
+    req.data = payload.id
+    req.isLogged = true
+
     next()
 
   } catch (error) {
-    next(error)
+
+    if (error instanceof jwt.TokenExpiredError) {
+      return next(new ExpiredTokenError('Access token expired'))
+    }
+
+    return next(error)
   }
 }
 

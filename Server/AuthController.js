@@ -7,6 +7,7 @@ const {
   verifyAccessToken,
   verifyRefreshToken
 } = require('./authHelper')
+const { BadRequestError, ServerError, NotFoundError, UnathorizedError } = require('./errors/Errors')
 
 class AuthController {
 
@@ -15,7 +16,7 @@ class AuthController {
       const {username, password} = req.body
 
       let user = await User.findOne({username: username})
-      if (user) return res.status(400).json({message: 'This user already exists'})
+      if (user) return next(new BadRequestError('User already exists'))
 
       const hashedPassword = bcrypt.hashSync(password, 7)
       user = new User({
@@ -25,6 +26,11 @@ class AuthController {
       await user.save()
 
       const accessToken = createAccessToken(user)
+      const refreshToken = await createRefreshtoken(user)
+
+      if (!(accessToken) || !(refreshToken)) {
+        return next(new ServerError('Internal server error'))
+      }
 
       return res.cookie('accessToken', accessToken, {
         maxAge: 900000,
@@ -33,7 +39,14 @@ class AuthController {
         domain: process.env.MODE === 'production' ? '' : 'localhost',
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
-      }).json({message: 'User created'})
+      }).cookie('refreshToken', refreshToken, {
+        maxAge: 2592000000,
+        httpOnly: true,
+        signed: true,
+        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
+        secure: process.env.MODE === 'production' ? true : false
+      }).json({message: 'Logged in'})
       
     } catch (error) {
       return next(error)
@@ -46,16 +59,16 @@ class AuthController {
       const {username, password} = req.body
 
       let user = await User.findOne({username: username})
-      if (!user) return res.status(404).json({message: 'User not found'})
+      if (!user) return next(new NotFoundError('User not found'))
 
       const isPasswordCorrect = bcrypt.compareSync(password, user.password)
-      if (!isPasswordCorrect) return res.status(400).json({message: 'Password is not correct'})
+      if (!isPasswordCorrect) return next(new BadRequestError('Password is not correct'))
 
       const accessToken = createAccessToken(user)
       const refreshToken = await createRefreshtoken(user)
 
       if (!(accessToken) || !(refreshToken)) {
-        return next('Internal server error')
+        return next(new ServerError('Internal server error'))
       }
 
       return res.cookie('accessToken', accessToken, {
@@ -84,22 +97,20 @@ class AuthController {
     
       const currentRefreshToken = req.signedCookies.refreshToken
   
-      if(!currentRefreshToken) return next('Not logged in')
+      if(!currentRefreshToken) return next(new UnathorizedError('Not logged in'))
   
       const payload = await verifyRefreshToken(currentRefreshToken)
-      if (!payload) return next('Not logged in')
+      if(!payload) return next(new UnathorizedError('Not logged in'))
 
       const user = await User.findOne({_id: payload.id})
-      
-      if (!user) {
-        return next('User does not exist')
-      }
+
+      if (!user) return next(new NotFoundError('User not found'))
 
       const accessToken = createAccessToken(user)
       const refreshToken = await createRefreshtoken(user)
 
       if (!(accessToken) || !(refreshToken)) {
-        return next('Internal server error')
+        return next(new ServerError('Internal server error'))
       }
 
       return res.cookie('accessToken', accessToken, {
