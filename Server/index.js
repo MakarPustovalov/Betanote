@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json())
-app.use(cookieParser('secretkey-lc3bh532b'))
+app.use(cookieParser(config.cookieSecret))
 
 app.use((req, res, next) => {
   console.log(req.url, req.method)

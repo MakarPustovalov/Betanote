@@ -10,5 +10,6 @@ module.exports = {
     optionsSuccessStatus: 200,
     allowedHeaders: ['Content-Type'],
     credentials: true
-  }
+  },
+  cookieSecret: 'secretkey-lc3bh532b'
 }

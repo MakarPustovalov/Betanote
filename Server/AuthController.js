@@ -1,5 +1,8 @@
 const User = require('./models/User')
 const bcrypt = require('bcrypt')
+const {
+  createAccessToken
+} = require('./authHelper')
 
 class AuthController {
 
@@ -35,7 +38,16 @@ class AuthController {
       const isPasswordCorrect = bcrypt.compareSync(password, user.password)
       if (!isPasswordCorrect) return res.status(400).json({message: 'Password is not correct'})
 
-      return res.json({message: 'Logged in'})
+      const accessToken = createAccessToken(user)
+
+      return res.cookie('accessToken', accessToken, {
+        maxAge: 900000,
+        httpOnly: true,
+        signed: true,
+        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
+        secure: process.env.MODE === 'production' ? true : false
+      }).json({message: 'Logged in'})
       
     } catch (error) {
       return next(error)
