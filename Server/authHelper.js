@@ -31,7 +31,7 @@ const verifyAccessToken = token => {
   }
 }
 
-async const createRefreshtoken = user => {
+async function createRefreshtoken (user) {
   try {
 
     const payload = {
@@ -43,7 +43,7 @@ async const createRefreshtoken = user => {
       expiresIn: "30d"
     })
     
-    const newToken = await Token.findOneAndUpdate({userId: user._id}, {token}, {new: true})
+    let newToken = await Token.findOneAndUpdate({userId: user._id}, {token}, {new: true, useFindAndModify: false})
     if (!newToken) {
       const token = new Token({
         userId: user._id, token
@@ -59,7 +59,25 @@ async const createRefreshtoken = user => {
   }
 }
 
+async function verifyRefreshToken (refreshToken) {
+  try {
+    
+    const payload = jwt.verify(refreshToken, config.jwt.refreshSecret)
+    if(!(payload) || !(payload.type === 'refresh')) throw new Error('Invalid refresh token')
+
+    const token = await Token.findOne({userId: payload.id})
+    if(!token) throw new Error('Invalid refresh token')
+
+    return payload
+
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 module.exports = {
   createAccessToken,
-  verifyAccessToken
+  verifyAccessToken,
+  createRefreshtoken,
+  verifyRefreshToken
 }

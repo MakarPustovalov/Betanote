@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 
-consttokenrSchema = new Schema({
+const tokenSchema = new Schema({
   userId: {
     type: String,
     required: true,

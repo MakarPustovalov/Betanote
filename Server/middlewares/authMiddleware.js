@@ -2,6 +2,9 @@ const { verifyAccessToken } = require('../authHelper')
 
 const authMW = (req, res, next) => {
   try {
+    if(req.method === "OPTIONS") {
+      next()
+    }
     
     const { accessToken } = req.signedCookies
 
