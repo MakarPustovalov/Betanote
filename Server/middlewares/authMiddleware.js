@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken')
 const { verifyAccessToken } = require('../authHelper')
 
 const authMW = (req, res, next) => {

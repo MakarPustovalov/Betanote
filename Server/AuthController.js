@@ -20,7 +20,16 @@ class AuthController {
 
       await user.save()
 
-      return res.json({message: 'User created'})
+      const accessToken = createAccessToken(user)
+
+      return res.cookie('accessToken', accessToken, {
+        maxAge: 900000,
+        httpOnly: true,
+        signed: true,
+        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
+        secure: process.env.MODE === 'production' ? true : false
+      }).json({message: 'User created'})
       
     } catch (error) {
       return next(error)
