@@ -133,6 +133,30 @@ class AuthController {
       next(error)
     }
   }
+
+  async logout (req, res, next) {
+    try {
+
+      return res.cookie('accessToken', '', {
+        maxAge: 1,
+        httpOnly: true,
+        signed: true,
+        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
+        secure: process.env.MODE === 'production' ? true : false
+      }).cookie('refreshToken', '', {
+        maxAge: 1,
+        httpOnly: true,
+        signed: true,
+        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
+        secure: process.env.MODE === 'production' ? true : false
+      }).json({message: 'Logged out', auth: false})
+      
+    } catch (error) {
+      return next(error)
+    }
+  }
 }
 
 module.exports = new AuthController()

@@ -28,7 +28,7 @@ class RegisterPage extends Component {
           <input type="text" placeholder="Login" id="username" className="authpage__input"/>
           <input type="password" placeholder="Password" id="password" className="authpage__input"/>
 
-          <button className="authpage__button" onClick={this.loginHandler}>Register</button>
+          <button className="authpage__button" onClick={this.registerHandler}>Register</button>
 
           <NavLink to="/login" className="authpage__link">Or log in</NavLink>
 

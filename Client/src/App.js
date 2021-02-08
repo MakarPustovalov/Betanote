@@ -288,8 +288,7 @@ class App extends React.Component {
   componentDidMount() {
     this.getLastTags()
     getData('/logged').then(data => {
-      if (data.ok) this.setState({userdata: data.userdata})
-      this.updateAuth(data.auth)
+      if (data.ok) this.setState({userdata: data.userdata}, this.updateAuth(data.auth))
     })
   }
 
@@ -308,7 +307,7 @@ class App extends React.Component {
 
             {this.state.auth ? false : <Redirect to="/login" />}
 
-            <HeaderBar auth={this.state.auth} userdata={this.state.userdata} />
+            <HeaderBar auth={this.state.auth} userdata={this.state.userdata} updateAuth={this.updateAuth} />
 
             <div className="app">
 
