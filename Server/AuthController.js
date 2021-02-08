@@ -1,5 +1,5 @@
 const User = require('./models/User')
-const Token = require('./models/Token')
+const { validationResult } = require('express-validator')
 const bcrypt = require('bcrypt')
 const {
   createAccessToken,
@@ -13,6 +13,13 @@ class AuthController {
 
   async register (req, res, next) {
     try {
+
+      const errors = validationResult(req)
+
+      if(!errors.isEmpty()) {
+        return next(new BadRequestError('Incorrect login or password'))
+      }
+
       const {username, password} = req.body
 
       let user = await User.findOne({username: username})
@@ -59,7 +66,7 @@ class AuthController {
       const {username, password} = req.body
 
       let user = await User.findOne({username: username})
-      if (!user) return next(new NotFoundError('User not found'))
+      if (!user) return next(new NotFoundError('This user does not exists'))
 
       const isPasswordCorrect = bcrypt.compareSync(password, user.password)
       if (!isPasswordCorrect) return next(new BadRequestError('Password is not correct'))

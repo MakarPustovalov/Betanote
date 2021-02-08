@@ -16,8 +16,6 @@ export default async function getData(url) {
 
     //Checking if token expired (ExpiredTokenError 401)
 
-    console.log(result)
-
     if (response.ok) {
       result.ok = true
     } else {

@@ -14,6 +14,10 @@
 .authpage{
   width: 100%;
 
+  p{
+    text-align: center;
+  }
+
   &__logo{
     max-width: 350px;
     width: 80%;
@@ -42,35 +46,11 @@
   &__link{
     @include robotoR(22px);
     text-align: center;
-    display: block;
     color: $blue1;
     text-decoration: none;
 
     &:hover{
       text-decoration: underline;
-    }
-  }
-
-  &__input{
-    @include robotoR(18px);
-    display: block;
-    margin: 0 auto;
-    max-width: 350px;
-    width: 80%;
-    height: 45px;
-    margin-bottom: 20px;
-    padding: 7px 10px;
-    border: 1px solid $grey5;
-    border-radius: 10px;
-
-    &:active{
-      border-color: $blue1;
-      background-color: $grey1;
-    }
-
-    &:focus{
-      border-color: $blue1;
-      background-color: $grey1;
     }
   }
 }

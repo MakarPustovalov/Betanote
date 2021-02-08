@@ -3,17 +3,38 @@ import './authpage.scss'
 import logo from '../../Assets/img/logo.png'
 import register from '../../API/register'
 import { NavLink, Redirect } from 'react-router-dom'
+import Input from '../Input/Input'
 
 class RegisterPage extends Component {
   constructor() {
     super()
     this.registerHandler = this.registerHandler.bind(this)
+    this.loginInput = React.createRef()
+    this.passwordInput = React.createRef()
   }
 
   registerHandler() {
     const username = document.getElementById('username').value
     const password = document.getElementById('password').value
-    register(username, password).then(data => this.props.updateAuth(data.auth))
+
+    if((username.length < 5) || (username.length > 30)) {
+      return this.loginInput.current.errorHandler('Username length must be in range of 5-30 symbols')
+    }
+
+    if((password.length < 5) || (password.length > 30)) {
+      return this.passwordInput.current.errorHandler('Password length must be in range of 5-30 symbols')
+    }
+
+    register(username, password).then(data => {
+      this.props.updateAuth(data.auth)
+      if (!data.ok) {
+        if (data.message.includes('User')) {
+          this.loginInput.current.errorHandler(data.message)
+        } else {
+          alert(data.message)
+        }
+      }
+    })
   }
 
   render() {
@@ -25,12 +46,12 @@ class RegisterPage extends Component {
 
           <img src={logo} alt="Betanote" className="authpage__logo"></img>
 
-          <input type="text" placeholder="Login" id="username" className="authpage__input"/>
-          <input type="password" placeholder="Password" id="password" className="authpage__input"/>
+          <Input ref={this.loginInput} type="text" placeholder="Login" id="username"/>
+          <Input ref={this.passwordInput} type="password" placeholder="Password" id="password"/>
 
           <button className="authpage__button" onClick={this.registerHandler}>Register</button>
 
-          <NavLink to="/login" className="authpage__link">Or log in</NavLink>
+          <p><NavLink to="/login" className="authpage__link">Or log in</NavLink></p>
 
         </div>
       </div>

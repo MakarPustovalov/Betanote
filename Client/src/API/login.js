@@ -21,8 +21,6 @@ export default async function login(username, password) {
 
     let result = await response.json();
 
-    console.log(result)
-
     if(response.ok) result.ok = true
 
     return result

@@ -9,8 +9,10 @@ import RegisterPage from './Components/Authorization/RegisterPage';
 
 /* TODO:
  * - [X] Authorization server
- * - API
- * - Auth frontend
+ * - [X] API
+ * - [X] Auth frontend
+ * - Auth validation
+ * - Exception alerts
  * - NodeJS server
  * - [X] Animation when update mainside
  * - [X] Tags
@@ -42,8 +44,8 @@ class App extends React.Component {
       currentNote: {}, //selected note
       isWorkspaceOn: false, //enabling workspace
       lastTags: [], //last 3 tags
-      auth: 'false',
-      userdata: {}
+      auth: false, //did user authentificated
+      userdata: {} //data {id, username}
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
@@ -57,6 +59,7 @@ class App extends React.Component {
     this.tagInputHandler = this.tagInputHandler.bind(this)
     this.getLastTags = this.getLastTags.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
+    this.getUserData = this.getUserData.bind(this)
   }
 
   // Setting local storage
@@ -282,14 +285,20 @@ class App extends React.Component {
   }
 
   updateAuth(auth) {
-    this.setState({auth}, this.forceUpdate())
+    this.setState({auth}, () => {
+      this.getUserData()
+    })
+  }
+
+  getUserData() {
+    getData('logged').then(data => {
+      if (data.ok) this.setState({userdata: data.userdata, auth: data.auth})
+    })
   }
 
   componentDidMount() {
     this.getLastTags()
-    getData('/logged').then(data => {
-      if (data.ok) this.setState({userdata: data.userdata}, this.updateAuth(data.auth))
-    })
+    this.getUserData()
   }
 
   componentDidUpdate() {
@@ -297,8 +306,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state)
-
     return (
       <BrowserRouter>
         <div className="page">

@@ -13,8 +13,6 @@ export default async function logout() {
 
     let result = await response.json();
 
-    console.log(result)
-
     if(response.ok) result.ok = true
 
     return result

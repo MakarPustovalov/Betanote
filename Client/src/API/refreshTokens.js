@@ -13,8 +13,6 @@ export default async function refreshTokens() {
 
     let result = await response.json();
 
-    console.log(result)
-
     if(response.ok) result.ok = true
 
     return result
