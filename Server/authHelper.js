@@ -46,7 +46,7 @@ async function createRefreshtoken (user) {
     
     let newToken = await Token.findOneAndUpdate({userId: user._id}, {token}, {new: true, useFindAndModify: false})
     if (!newToken) {
-      let newToken = new Token({
+      newToken = new Token({
         userId: user._id, token
       })
 
