@@ -29,7 +29,7 @@ app.use('', indexRouter)
 
 app.use((err, req, res, next) => {
   console.error(err)
-  res.status(err.status || 400).json({message: err.message, error: err})
+  res.status(err.status || 400).json({message: err.message, error: err, auth: false})
 })
 
 const start = () => {

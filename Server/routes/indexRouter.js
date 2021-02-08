@@ -1,8 +1,8 @@
 const authMW = require('../middlewares/authMiddleware')
 const router = require('express').Router()
 
-router.get('/info', authMW, (req, res) => {
-  return res.json({message: req.data})
+router.get('/logged', authMW, (req, res) => {
+  return res.json({message: 'Logged', auth: true})
 })
 
 module.exports = router

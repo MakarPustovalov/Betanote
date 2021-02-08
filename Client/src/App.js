@@ -1,9 +1,13 @@
 import React from 'react'
 import MainSide from './Components/MainSide/MainSide';
 import Sidebar from './Components/Sidebar/Sidebar';
+import getData from './API/getData'
 
 /* TODO:
- * - NodeJS Backend server (with authentification)
+ * - [X] Authorization server
+ * - API
+ * - Auth frontend
+ * - NodeJS server
  * - [X] Animation when update mainside
  * - [X] Tags
  * - --Colors--
@@ -21,17 +25,19 @@ import Sidebar from './Components/Sidebar/Sidebar';
  * - DOCUMENTATION!!!
  * FIXME:
  * - [X] !BUG! reset changes in new task = error
+ * - Unnecessary tagHandler (there is universal)
+ * - Add special function for opening workspace
  */
 
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      notes: JSON.parse(localStorage.getItem('notesData')) ?
+      notes: JSON.parse(localStorage.getItem('notesData')) ? //list of notes
       JSON.parse(localStorage.getItem('notesData')) : [],
-      currentNote: {},
-      isWorkspaceOn: false,
-      lastTags: []
+      currentNote: {}, //selected note
+      isWorkspaceOn: false, //enabling workspace
+      lastTags: [] //last 3 tags
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
@@ -46,10 +52,14 @@ class App extends React.Component {
     this.getLastTags = this.getLastTags.bind(this)
   }
 
+  // Setting local storage
+
   setLocalStorage() {
     const notesData = JSON.stringify(this.state.notes)
     localStorage.setItem('notesData', notesData)
   }
+
+  // Universal handler for input (notes)
 
   inputHandler(event) {
     this.setState(state => {
@@ -59,11 +69,15 @@ class App extends React.Component {
     })
   }
 
+  // Handler for clicking on note from list
+
   noteClickHandler(event) {
     const id = event.currentTarget.id
     const note = this.getNoteById(id)
     this.setState({currentNote: note, isWorkspaceOn: true})
   }
+
+  // unnecessary handler for tags
 
   tagInputHandler(event) {
     this.setState(state => {
@@ -76,6 +90,8 @@ class App extends React.Component {
     })
   }
 
+  // getting note by it id from state.notes
+
   getNoteById(id) {
     const note = this.state.notes.filter(element => {
       return element.id === id
@@ -84,12 +100,16 @@ class App extends React.Component {
     return false
   }
 
+  // show start screen
+
   closeWorkspace() {
     this.setState({isWorkspaceOn: false}, () => {
       this.clearCurrentNote()
       this.getLastTags()
     })
   }
+
+  // save selected note to storage
 
   saveCurrentNote() {
     const activeNote = this.getNoteById(this.state.currentNote.id)
@@ -127,6 +147,8 @@ class App extends React.Component {
     }
   }
 
+  // handler for saving current note
+
   saveHandler() {
     if (this.state.currentNote.description === '') {
       this.setState(state => {
@@ -146,6 +168,8 @@ class App extends React.Component {
     this.setInitialCookie()
   }
 
+  // create new current note
+
   createNewNote() {
     this.setState({currentNote: {
         id: `${(+new Date).toString()}`,
@@ -155,9 +179,13 @@ class App extends React.Component {
       }, isWorkspaceOn: true})
   }
 
+  // clear selected note in app cache
+
   clearCurrentNote() {
     this.setState({currentNote: {}})
   }
+
+  // selete note which is selected
 
   deleteNote() {
     const activeNote = this.getNoteById(this.state.currentNote.id)
@@ -203,7 +231,7 @@ class App extends React.Component {
     }
 
     const newTags = []
-    //Shortening to 3
+    //Shortening to 3 elements in massive
     for (let i = 0; i < 3 && i < cleanTagsArr.length; i++) {
       newTags.push(cleanTagsArr[i])
     }
@@ -246,10 +274,9 @@ class App extends React.Component {
     return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
-
-
   componentDidMount() {
     this.getLastTags()
+    getData('/logged')
   }
 
   componentDidUpdate() {
