@@ -1,49 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Roboto:wght@400;500&display=swap');
+@import 'mixins';
 
 *{
   box-sizing: border-box;
 }
 
 body {
-  -webkit-font-smoothing:subpixel-antialiased !important;
-  -webkit-backface-visibility:hidden;
-  -moz-backface-visibility:hidden;
-  -ms-backface-visibility:hidden;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased !important;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }
-
-@mixin robotoR ($size: 18px) {
-  font-family: 'Roboto';
-  font-weight: 400;
-  font-size: $size;
-}
-
-@mixin robotoM ($size: 18px) {
-  font-family: 'Roboto';
-  font-weight: 500;
-  font-size: $size;
-}
-
-@mixin montserratR ($size: 18px) {
-  font-family: 'Montserrat';
-  font-weight: 400;
-  font-size: $size;
-}
-
-@mixin montserratM ($size: 18px) {
-  font-family: 'Montserrat';
-  font-weight: 500;
-  font-size: $size;
-}
-
-$red1: #F03A3A;
-$orange1: #F07C3A;
-$violet1: #B63AF0;
-$green1: #1BB50E;
-$blue1: #379FFF;
-$grey0: #ffffff;
-$grey4: #BFBFBF;
-$grey5: #8C8C8C;
-$grey6: #5E5E5E;
 
 .page{
   height: 100vh;
@@ -95,19 +63,22 @@ $grey6: #5E5E5E;
 
   &__text{
     @include robotoR(17px);
-    vertical-align: middle
   }
 
   &__link{
     @include robotoR(17px);
     color: $blue1;
-    vertical-align: middle
+    cursor: pointer;
+
+    &:hover{
+      text-decoration: underline;
+    }
   }
 
   &__right{
     display: flex;
     align-items: center;
-    
+
     *{
       margin-left: 20px;
     }

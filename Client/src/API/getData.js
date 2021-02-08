@@ -39,6 +39,8 @@ export default async function getData(url) {
         
             const result = await response.json();
 
+            response.ok ? result.ok = true : result.ok = false
+
             return result
 
           }

@@ -8,6 +8,7 @@ const createAccessToken = user => {
     const payload = {
       type: 'access',
       id: user._id,
+      username: user.username
     }
   
     return jwt.sign(payload, config.jwt.accessSecret, {

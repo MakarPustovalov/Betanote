@@ -3,7 +3,9 @@ import MainSide from './Components/MainSide/MainSide';
 import Sidebar from './Components/Sidebar/Sidebar';
 import getData from './API/getData'
 import HeaderBar from './Components/HeaderBar/HeaderBar';
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import LoginPage from './Components/Authorization/LoginPage';
+import RegisterPage from './Components/Authorization/RegisterPage';
 
 /* TODO:
  * - [X] Authorization server
@@ -40,7 +42,8 @@ class App extends React.Component {
       currentNote: {}, //selected note
       isWorkspaceOn: false, //enabling workspace
       lastTags: [], //last 3 tags
-      auth: 'false'
+      auth: 'false',
+      userdata: {}
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
@@ -53,6 +56,7 @@ class App extends React.Component {
     this.resetChanges = this.resetChanges.bind(this)
     this.tagInputHandler = this.tagInputHandler.bind(this)
     this.getLastTags = this.getLastTags.bind(this)
+    this.updateAuth = this.updateAuth.bind(this)
   }
 
   // Setting local storage
@@ -80,7 +84,7 @@ class App extends React.Component {
     this.setState({currentNote: note, isWorkspaceOn: true})
   }
 
-  // unnecessary handler for tags
+  // FIXME: unnecessary handler for tags
 
   tagInputHandler(event) {
     this.setState(state => {
@@ -277,9 +281,16 @@ class App extends React.Component {
     return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
+  updateAuth(auth) {
+    this.setState({auth}, this.forceUpdate())
+  }
+
   componentDidMount() {
     this.getLastTags()
-    getData('/logged')
+    getData('/logged').then(data => {
+      if (data.ok) this.setState({userdata: data.userdata})
+      this.updateAuth(data.auth)
+    })
   }
 
   componentDidUpdate() {
@@ -287,36 +298,50 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log(this.state)
+    console.log(this.state)
 
     return (
       <BrowserRouter>
         <div className="page">
 
-          <HeaderBar/>
+          <Route exact path="/">
 
-          <div className="app">
+            {this.state.auth ? false : <Redirect to="/login" />}
 
-            <Sidebar
-            notes={this.state.notes}
-            noteClickHandler={this.noteClickHandler}
-            createNewNote={this.createNewNote}
-            lastTags={this.state.lastTags}
-            />
+            <HeaderBar auth={this.state.auth} userdata={this.state.userdata} />
 
-            <MainSide
-            currentNote={this.state.currentNote}
-            inputHandler={this.inputHandler}
-            isWorkspaceOn={this.state.isWorkspaceOn}
-            saveHandler={this.saveHandler}
-            closeWorkspace={this.closeWorkspace}
-            deleteNote={this.deleteNote}
-            resetChanges={this.resetChanges}
-            tagInputHandler={this.tagInputHandler}
-            getCookie={this.getCookie}
-            />
+            <div className="app">
 
-          </div>
+              <Sidebar
+              notes={this.state.notes}
+              noteClickHandler={this.noteClickHandler}
+              createNewNote={this.createNewNote}
+              lastTags={this.state.lastTags}
+              />
+
+              <MainSide
+              currentNote={this.state.currentNote}
+              inputHandler={this.inputHandler}
+              isWorkspaceOn={this.state.isWorkspaceOn}
+              saveHandler={this.saveHandler}
+              closeWorkspace={this.closeWorkspace}
+              deleteNote={this.deleteNote}
+              resetChanges={this.resetChanges}
+              tagInputHandler={this.tagInputHandler}
+              getCookie={this.getCookie}
+              />
+
+            </div>
+
+          </Route>
+
+          <Route exact path="/register">
+            <RegisterPage updateAuth={this.updateAuth} auth={this.state.auth} />
+          </Route>
+
+          <Route exact path="/login">
+            <LoginPage updateAuth={this.updateAuth} auth={this.state.auth} />
+          </Route>
       
         </div>
       </BrowserRouter>

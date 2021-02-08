@@ -46,7 +46,7 @@ class AuthController {
         domain: process.env.MODE === 'production' ? '' : 'localhost',
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
-      }).json({message: 'Logged in'})
+      }).json({message: 'Logged in', auth: true})
       
     } catch (error) {
       return next(error)
@@ -85,7 +85,7 @@ class AuthController {
         domain: process.env.MODE === 'production' ? '' : 'localhost',
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
-      }).json({message: 'Logged in'})
+      }).json({message: 'Logged in', auth: true})
       
     } catch (error) {
       return next(error)
