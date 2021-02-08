@@ -2,6 +2,8 @@ import React from 'react'
 import MainSide from './Components/MainSide/MainSide';
 import Sidebar from './Components/Sidebar/Sidebar';
 import getData from './API/getData'
+import HeaderBar from './Components/HeaderBar/HeaderBar';
+import { BrowserRouter, Route } from 'react-router-dom'
 
 /* TODO:
  * - [X] Authorization server
@@ -37,7 +39,8 @@ class App extends React.Component {
       JSON.parse(localStorage.getItem('notesData')) : [],
       currentNote: {}, //selected note
       isWorkspaceOn: false, //enabling workspace
-      lastTags: [] //last 3 tags
+      lastTags: [], //last 3 tags
+      auth: 'false'
     }
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
@@ -287,28 +290,36 @@ class App extends React.Component {
     // console.log(this.state)
 
     return (
-      <div className="page">
+      <BrowserRouter>
+        <div className="page">
 
-        <Sidebar
-        notes={this.state.notes}
-        noteClickHandler={this.noteClickHandler}
-        createNewNote={this.createNewNote}
-        lastTags={this.state.lastTags}
-        />
+          <HeaderBar/>
 
-        <MainSide
-        currentNote={this.state.currentNote}
-        inputHandler={this.inputHandler}
-        isWorkspaceOn={this.state.isWorkspaceOn}
-        saveHandler={this.saveHandler}
-        closeWorkspace={this.closeWorkspace}
-        deleteNote={this.deleteNote}
-        resetChanges={this.resetChanges}
-        tagInputHandler={this.tagInputHandler}
-        getCookie={this.getCookie}
-        />
-    
-      </div>
+          <div className="app">
+
+            <Sidebar
+            notes={this.state.notes}
+            noteClickHandler={this.noteClickHandler}
+            createNewNote={this.createNewNote}
+            lastTags={this.state.lastTags}
+            />
+
+            <MainSide
+            currentNote={this.state.currentNote}
+            inputHandler={this.inputHandler}
+            isWorkspaceOn={this.state.isWorkspaceOn}
+            saveHandler={this.saveHandler}
+            closeWorkspace={this.closeWorkspace}
+            deleteNote={this.deleteNote}
+            resetChanges={this.resetChanges}
+            tagInputHandler={this.tagInputHandler}
+            getCookie={this.getCookie}
+            />
+
+          </div>
+      
+        </div>
+      </BrowserRouter>
     );
   }
 }
