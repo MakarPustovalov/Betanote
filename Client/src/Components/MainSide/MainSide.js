@@ -50,7 +50,7 @@ class MainSide extends React.Component {
               inputHandler={this.props.inputHandler}
               saveHandler={this.props.saveHandler}
               closeWorkspace={this.props.closeWorkspace}
-              deleteNote={this.props.deleteNote}
+              deleteNoteHandler={this.props.deleteNoteHandler}
               resetChanges={this.props.resetChanges}
               setTagBtnHandler={this.setTagBtnHandler}
               tagInputHandler={this.props.tagInputHandler}

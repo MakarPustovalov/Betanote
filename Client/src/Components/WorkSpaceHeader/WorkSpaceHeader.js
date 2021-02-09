@@ -11,7 +11,7 @@ function WorkSpaceHeader({
     inputHandler,
     saveHandler,
     closeWorkspace,
-    deleteNote,
+    deleteNoteHandler,
     resetChanges,
     setTagBtnHandler,
     tagInputHandler
@@ -43,7 +43,7 @@ function WorkSpaceHeader({
   
       <div className="mainside__controls">
         
-        <button title="Delete note" onClick={deleteNote} className="mainside__controls-button">
+        <button title="Delete note" onClick={deleteNoteHandler} className="mainside__controls-button">
           <img src={deleteBtn} alt="Delete" />
         </button>
         

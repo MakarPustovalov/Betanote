@@ -8,7 +8,7 @@ function WorkSpace({
     inputHandler,
     saveHandler,
     closeWorkspace,
-    deleteNote,
+    deleteNoteHandler,
     resetChanges,
     setTagBtnHandler,
     tagInputHandler,
@@ -23,7 +23,7 @@ function WorkSpace({
         inputHandler={inputHandler}
         saveHandler={saveHandler}
         closeWorkspace={closeWorkspace}
-        deleteNote={deleteNote}
+        deleteNoteHandler={deleteNoteHandler}
         resetChanges={resetChanges}
         setTagBtnHandler={setTagBtnHandler}
         tagInputHandler={tagInputHandler}

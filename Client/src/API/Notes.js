@@ -6,7 +6,9 @@ export async function writeNote(note) {
 
     if((!note) || (!note.description) || (!note.content)) return {ok: false, message: "Title nor content cannot be empty"}
 
-    const payload = JSON.stringify(note)
+    const payload = JSON.stringify({
+      note
+    })
     
     const response = await fetch(config.API_ROUTE + 'write-note', {
       method: 'POST',
@@ -52,7 +54,8 @@ export async function writeNote(note) {
         }
 
       }
-
+      
+      result.ok = false
     }
 
     //result errors:
@@ -81,7 +84,11 @@ export async function writeNote(note) {
 export async function deleteNote(noteId) {
   try {
 
-    const payload = JSON.stringify(noteId)
+    const payload = JSON.stringify({
+      note: {
+        _id: noteId
+      }
+    })
     
     const response = await fetch(config.API_ROUTE + 'delete-note', {
       method: 'DELETE',
@@ -127,7 +134,8 @@ export async function deleteNote(noteId) {
         }
 
       }
-
+      
+      result.ok = false
     }
 
     //result errors:

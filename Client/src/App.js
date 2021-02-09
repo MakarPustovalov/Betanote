@@ -38,6 +38,7 @@ import { writeNote, deleteNote } from './API/Notes'
  * - Unnecessary tagHandler (there is universal)
  * - Add special function for opening workspace
  * - Ref is null at LoginPage
+ * - Create SEPARATED endpoints for creating and updating
  */
 
 class App extends React.Component {
@@ -58,7 +59,7 @@ class App extends React.Component {
     this.saveHandler = this.saveHandler.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
-    this.deleteNote = this.deleteNote.bind(this)
+    this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
     this.tagInputHandler = this.tagInputHandler.bind(this)
@@ -67,13 +68,12 @@ class App extends React.Component {
     this.getUserData = this.getUserData.bind(this)
   }
 
-  // -- -- -- -- -- New methods (for endpoints)
+  // -- -- -- -- -- API methods (for endpoints)
 
   getNoteList() {
     getData('note-list').then(data => {
-      if (data.ok) {
-        this.setState({notes: data.noteList})
-      } else console.log(data)
+      if (!data.ok) console.log(data)
+      this.setState({notes: data.noteList, auth: data.auth})
     })
   }
 
@@ -81,6 +81,135 @@ class App extends React.Component {
     if((!note) || (!note.description) || (!note.content)) return alert('Note must have description & content') //Перенести в хендлер
     writeNote(note).then()
   }
+
+  // delete note which is selected
+
+  deleteNoteHandler() {
+    if(!this.state.currentNote._id) {
+      this.clearCurrentNote()
+      this.closeWorkspace()
+      return
+    }
+
+    deleteNote(this.state.currentNote._id).then(data => {
+      if(!data.ok) {
+
+        alert(data.message)
+        this.updateAuth(data.auth)
+
+      } else {
+
+        this.getNoteList()
+
+      }
+    })
+
+    this.closeWorkspace()
+  }
+
+  // -- -- -- -- --
+  // Note Methods & handlers
+  // -- -- -- -- --
+
+  // getting note by it id from state.notes
+
+  getNoteById(id) {
+    const note = this.state.notes.filter(element => {
+      return element._id === id
+    })
+    if (note.length < 1) return false
+    return note[0]
+  }
+
+  // Handler for clicking on note from list
+
+  noteClickHandler(event) {
+    const id = event.currentTarget.id
+    const note = this.getNoteById(id)
+    this.setState({currentNote: note, isWorkspaceOn: true})
+  }
+
+  // save selected note to storage
+
+  saveCurrentNote() {
+    writeNote(this.state.currentNote).then(data => {
+      if (!data.ok) {
+
+        this.updateAuth(data.auth)
+        return alert(data.message)
+
+      } else {
+        this.getNoteList()
+      }
+    })
+  }
+
+  // handler for saving current note
+
+  saveHandler() {
+    if (this.state.currentNote.content === '') {
+      return alert('Please write some content for note')
+    }
+
+    if (this.state.currentNote.description === '') {
+
+      this.setState(state => {
+        return(
+          {
+            currentNote: {
+              ...state.currentNote,
+              description: "New note"
+            }
+          }
+        )
+      }, this.saveCurrentNote())
+
+    } else {
+      this.saveCurrentNote()
+    }
+  }
+
+  // create new current note
+
+  createNewNote() {
+    this.setState({currentNote: {
+      description: '',
+      content: "",
+      tag: ""
+    }, isWorkspaceOn: true})
+  }
+
+  // clear selected note in app cache
+
+  clearCurrentNote() {
+    this.setState({currentNote: {}})
+  }
+
+  // reset unsaved changes for current note
+
+  resetChanges() {
+    if (this.getNoteById(this.state.currentNote._id)) {
+      this.setState(state => {
+          return {
+            currentNote: this.getNoteById(state.currentNote._id)
+          }
+      })
+    } else {
+      this.setState(state => {
+          return {
+            currentNote: {
+              ...state.currentNote,
+              description: '',
+              content: ''
+            }
+          }
+      })
+    }
+  }
+
+  // -- -- -- -- --
+  // UI Methods & handlers
+  // -- -- -- -- --
 
   // Setting local storage
 
@@ -99,14 +228,6 @@ class App extends React.Component {
     })
   }
 
-  // Handler for clicking on note from list
-
-  noteClickHandler(event) {
-    const id = event.currentTarget.id
-    const note = this.getNoteById(id)
-    this.setState({currentNote: note, isWorkspaceOn: true})
-  }
-
   // FIXME: unnecessary handler for tags
 
   tagInputHandler(event) {
@@ -120,16 +241,6 @@ class App extends React.Component {
     })
   }
 
-  // getting note by it id from state.notes
-
-  getNoteById(id) {
-    const note = this.state.notes.filter(element => {
-      return element._id === id
-    })
-    if (note.length > 0) return note[0]
-    return false
-  }
-
   // show start screen
 
   closeWorkspace() {
@@ -137,115 +248,6 @@ class App extends React.Component {
       this.clearCurrentNote()
       this.getLastTags()
     })
-  }
-
-  // save selected note to storage
-
-  saveCurrentNote() {
-    const activeNote = this.getNoteById(this.state.currentNote._id)
-
-    if (activeNote) {
-      //Updating notesArr
-      const newNotes = this.state.notes.map(element => {
-        if (element === activeNote) return this.state.currentNote
-        return element
-      })
-
-      this.setState(state => {
-          return {
-            ...state,
-            notes: newNotes
-          }
-        }, () => {
-          this.setLocalStorage()
-          this.getLastTags()
-      })
-    } else if (!activeNote) {
-      //Adding new note to notesArr
-      const newNotes = this.state.notes
-      newNotes.unshift(this.state.currentNote)
-
-      this.setState(state => {
-          return {
-            ...state,
-            notes: newNotes
-          }
-        }, () => {
-          this.setLocalStorage()
-          this.getLastTags()
-      })
-    }
-  }
-
-  // handler for saving current note
-
-  saveHandler() {
-    if (this.state.currentNote.description === '') {
-      this.setState(state => {
-        return(
-          {
-            currentNote: {
-              ...state.currentNote,
-              description: "New note"
-            }
-          }
-        )
-      }, this.saveCurrentNote())
-    } else {
-      this.saveCurrentNote()
-    }
-    
-    this.setInitialCookie()
-  }
-
-  // create new current note
-
-  createNewNote() {
-    this.setState({currentNote: {
-        id: `${(+new Date).toString()}`,
-        description: '',
-        content: "",
-        tag: ""
-      }, isWorkspaceOn: true})
-  }
-
-  // clear selected note in app cache
-
-  clearCurrentNote() {
-    this.setState({currentNote: {}})
-  }
-
-  // selete note which is selected
-
-  deleteNote() {
-    const activeNote = this.getNoteById(this.state.currentNote.id)
-    //filter deleted note from notes arr
-    const newNotes = this.state.notes.filter(elem => {
-      return elem !== activeNote
-    })
-
-    this.setState({notes: newNotes})
-    this.closeWorkspace()
-  }
-
-  resetChanges() {
-    if (this.getNoteById(this.state.currentNote.id)) {
-      this.setState(state => {
-          return {
-            currentNote: this.getNoteById(state.currentNote.id)
-          }
-      })
-    } else {
-      this.setState(state => {
-          return {
-            currentNote: {
-              ...state.currentNote,
-              description: '',
-              content: ''
-            }
-          }
-      })
-    }
   }
 
   getLastTags() {
@@ -312,15 +314,14 @@ class App extends React.Component {
 
   getUserData() {
     getData('logged').then(data => {
-      console.log(data)
-      if (data.ok) this.setState({userdata: data.userdata, auth: data.auth})
+      if (data.ok) return this.setState({userdata: data.userdata, auth: data.auth})
     })
   }
 
   componentDidMount() {
+    this.getUserData()
     this.getNoteList()
     this.getLastTags()
-    this.getUserData()
   }
 
   componentDidUpdate() {
@@ -353,7 +354,7 @@ class App extends React.Component {
               isWorkspaceOn={this.state.isWorkspaceOn}
               saveHandler={this.saveHandler}
               closeWorkspace={this.closeWorkspace}
-              deleteNote={this.deleteNote}
+              deleteNoteHandler={this.deleteNoteHandler}
               resetChanges={this.resetChanges}
               tagInputHandler={this.tagInputHandler}
               getCookie={this.getCookie}
