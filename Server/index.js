@@ -6,6 +6,7 @@ const cors = require('cors')
 const indexRouter = require('./routes/indexRouter')
 const authRouter = require('./routes/authRouter')
 const mongoose = require('mongoose')
+const { AuthError } = require('./errors/Errors')
 
 const app = express()
 
@@ -29,7 +30,9 @@ app.use('', indexRouter)
 
 app.use((err, req, res, next) => {
   console.error(err)
-  res.status(err.status || 400).json({message: err.message, error: err, auth: false})
+  let auth = true
+  if (err instanceof AuthError) auth = false //Checking if error caused by authentification
+  res.status(err.status || 400).json({message: err.message, error: err, auth})
 })
 
 const start = () => {

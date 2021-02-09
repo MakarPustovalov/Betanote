@@ -11,8 +11,9 @@ import RegisterPage from './Components/Authorization/RegisterPage';
  * - [X] Authorization server
  * - [X] API
  * - [X] Auth frontend
- * - Auth validation
- * - Exception alerts
+ * - [X] Auth validation
+ * - [X] Exception alerts
+ * - Upgrade universal alert
  * - NodeJS server
  * - [X] Animation when update mainside
  * - [X] Tags

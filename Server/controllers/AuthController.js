@@ -1,4 +1,4 @@
-const User = require('./models/User')
+const User = require('../models/User')
 const { validationResult } = require('express-validator')
 const bcrypt = require('bcrypt')
 const {
@@ -6,8 +6,8 @@ const {
   createRefreshtoken,
   verifyAccessToken,
   verifyRefreshToken
-} = require('./authHelper')
-const { BadRequestError, ServerError, NotFoundError, UnathorizedError } = require('./errors/Errors')
+} = require('../helpers/authHelper')
+const { BadRequestError, ServerError, NotFoundError, UnathorizedError } = require('../errors/Errors')
 
 class AuthController {
 

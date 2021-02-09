@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const AuthController = require('../AuthController')
+const AuthController = require('../controllers/AuthController')
 const { check } = require('express-validator')
 
 router.get('/', (req, res) => {

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
-const config = require('./config')
-const Token = require('./models/Token')
+const config = require('../config')
+const Token = require('../models/Token')
 
 const createAccessToken = user => {
   try {
@@ -28,6 +28,7 @@ const verifyAccessToken = token => {
     return payload
     
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) throw new ExpiredTokenError('Access token expired')
     throw new Error(error)
   }
 }
@@ -72,6 +73,7 @@ async function verifyRefreshToken (refreshToken) {
     return payload
 
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) throw new ExpiredTokenError('Access token expired')
     throw new Error(error)
   }
 }

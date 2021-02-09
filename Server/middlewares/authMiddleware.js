@@ -1,4 +1,4 @@
-const { verifyAccessToken } = require('../authHelper')
+const { verifyAccessToken } = require('../helpers/authHelper')
 const { UnathorizedError, ExpiredTokenError } = require('../errors/Errors')
 const jwt = require('jsonwebtoken')
 
@@ -21,7 +21,7 @@ const authMW = (req, res, next) => {
     const payload = verifyAccessToken(accessToken)
 
     req.data = {
-      id: payload.id,
+      userId: payload.id,
       username: payload.username
     }
     req.isLogged = true

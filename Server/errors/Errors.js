@@ -1,3 +1,12 @@
+class AuthError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'AuthError'
+    this.status = 401
+    this.message = message
+  }
+}
+
 class NotFoundError extends Error {
   constructor(message) {
     super(message)
@@ -37,7 +46,7 @@ class ServerError extends Error {
   }
 }
 
-class UnathorizedError extends Error {
+class UnathorizedError extends AuthError {
   constructor(message) {
     super(message)
     this.name = 'UnathorizedError'
@@ -50,7 +59,7 @@ class UnathorizedError extends Error {
   }
 }
 
-class ExpiredTokenError extends Error {
+class ExpiredTokenError extends AuthError {
   constructor(message) {
     super(message)
     this.name = 'ExpiredTokenError'
@@ -82,5 +91,6 @@ module.exports = {
   ServerError,
   UnathorizedError,
   ExpiredTokenError,
-  BadRequestError
+  BadRequestError,
+  AuthError
 }
