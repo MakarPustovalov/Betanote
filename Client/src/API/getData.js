@@ -1,5 +1,5 @@
 import config from '../config'
-import refreshTokens from './refreshTokens'
+import { refreshTokens } from './Auth'
 
 export default async function getData(url) {
   try {
@@ -46,7 +46,8 @@ export default async function getData(url) {
         }
 
       }
-
+      
+      result.ok = false
     }
 
     //result errors:

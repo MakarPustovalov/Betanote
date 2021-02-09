@@ -7,7 +7,7 @@ const {
   verifyAccessToken,
   verifyRefreshToken
 } = require('../helpers/authHelper')
-const { BadRequestError, ServerError, NotFoundError, UnathorizedError } = require('../errors/Errors')
+const { BadAuthRequestError, ServerError, UnathorizedError } = require('../errors/Errors')
 
 class AuthController {
 
@@ -17,13 +17,13 @@ class AuthController {
       const errors = validationResult(req)
 
       if(!errors.isEmpty()) {
-        return next(new BadRequestError('Incorrect login or password'))
+        return next(new BadAuthRequestError('Incorrect login or password'))
       }
 
       const {username, password} = req.body
 
       let user = await User.findOne({username: username})
-      if (user) return next(new BadRequestError('User already exists'))
+      if (user) return next(new BadAuthRequestError('User already exists'))
 
       const hashedPassword = bcrypt.hashSync(password, 7)
       user = new User({
@@ -66,10 +66,10 @@ class AuthController {
       const {username, password} = req.body
 
       let user = await User.findOne({username: username})
-      if (!user) return next(new NotFoundError('This user does not exists'))
+      if (!user) return next(new BadAuthRequestError('This user does not exists'))
 
       const isPasswordCorrect = bcrypt.compareSync(password, user.password)
-      if (!isPasswordCorrect) return next(new BadRequestError('Password is not correct'))
+      if (!isPasswordCorrect) return next(new BadAuthRequestError('Password is not correct'))
 
       const accessToken = createAccessToken(user)
       const refreshToken = await createRefreshtoken(user)
@@ -111,7 +111,7 @@ class AuthController {
 
       const user = await User.findOne({_id: payload.id})
 
-      if (!user) return next(new NotFoundError('User not found'))
+      if (!user) return next(new BadAuthRequestError('User not found'))
 
       const accessToken = createAccessToken(user)
       const refreshToken = await createRefreshtoken(user)

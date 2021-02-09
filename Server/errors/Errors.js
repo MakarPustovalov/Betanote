@@ -4,15 +4,17 @@ class AuthError extends Error {
     this.name = 'AuthError'
     this.status = 401
     this.message = message
+    this.auth = false
   }
 }
 
 class NotFoundError extends Error {
-  constructor(message) {
+  constructor(message, auth) {
     super(message)
     this.name = 'NotFoundError'
     this.status = 404
     this.message = message
+    this.auth = auth === undefined ? true : auth
   }
 
   logStack() {
@@ -21,11 +23,12 @@ class NotFoundError extends Error {
 }
 
 class DBError extends Error {
-  constructor(message) {
+  constructor(message, auth) {
     super(message)
     this.name = 'DBError'
     this.status = 500
     this.message = message
+    this.auth = auth === undefined ? true : auth
   }
 
   logStack() {
@@ -34,11 +37,12 @@ class DBError extends Error {
 }
 
 class ServerError extends Error {
-  constructor(message) {
+  constructor(message, auth) {
     super(message)
     this.name = 'ServerError'
     this.status = 500
     this.message = message
+    this.auth = auth === undefined ? true : auth
   }
 
   logStack() {
@@ -73,9 +77,23 @@ class ExpiredTokenError extends AuthError {
 }
 
 class BadRequestError extends Error {
-  constructor(message) {
+  constructor(message, auth) {
     super(message)
     this.name = 'BadRequestError'
+    this.status = 400
+    this.message = message
+    this.auth = auth === undefined ? true : auth
+  }
+
+  logStack() {
+    console.error(this.stack)
+  }
+}
+
+class BadAuthRequestError extends AuthError {
+  constructor(message) {
+    super(message)
+    this.name = 'BadAuthRequestError'
     this.status = 400
     this.message = message
   }
@@ -92,5 +110,6 @@ module.exports = {
   UnathorizedError,
   ExpiredTokenError,
   BadRequestError,
-  AuthError
+  AuthError,
+  BadAuthRequestError
 }

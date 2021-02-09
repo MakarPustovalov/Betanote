@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './authpage.scss'
 import logo from '../../Assets/img/logo.png'
-import register from '../../API/register'
+import { register } from '../../API/Auth'
 import { NavLink, Redirect } from 'react-router-dom'
 import Input from '../Input/Input'
 
@@ -26,14 +26,14 @@ class RegisterPage extends Component {
     }
 
     register(username, password).then(data => {
-      this.props.updateAuth(data.auth)
       if (!data.ok) {
         if (data.message.includes('User')) {
-          this.loginInput.current.errorHandler(data.message)
+          return this.loginInput.current.errorHandler(data.message)
         } else {
           alert(data.message)
         }
       }
+      this.props.updateAuth(data.auth)
     })
   }
 

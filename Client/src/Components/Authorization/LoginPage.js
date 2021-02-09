@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './authpage.scss'
 import logo from '../../Assets/img/logo.png'
-import login from '../../API/login'
+import { login } from '../../API/Auth'
 import { NavLink, Redirect } from 'react-router-dom'
 import Input from '../Input/Input'
 
@@ -13,11 +13,19 @@ class LoginPage extends Component {
     this.passwordInput = React.createRef()
   }
 
-  loginHandler() {
+  async loginHandler() {
     const username = document.getElementById('username').value
     const password = document.getElementById('password').value
+
+    if((username.length < 5) || (username.length > 30)) {
+      return this.loginInput.current.errorHandler('Username length must be in range of 5-30 symbols')
+    }
+
+    if((password.length < 5) || (password.length > 30)) {
+      return this.passwordInput.current.errorHandler('Password length must be in range of 5-30 symbols')
+    }
+    
     login(username, password).then(data => {
-      this.props.updateAuth(data.auth)
       if (!data.ok) {
         if (data.message.includes('user')) {
           this.loginInput.current.errorHandler(data.message)
@@ -27,6 +35,7 @@ class LoginPage extends Component {
           alert(data.message)
         }
       }
+      this.props.updateAuth(data.auth)
     })
   }
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import MainSide from './Components/MainSide/MainSide';
 import Sidebar from './Components/Sidebar/Sidebar';
-import getData from './API/getData'
 import HeaderBar from './Components/HeaderBar/HeaderBar';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import LoginPage from './Components/Authorization/LoginPage';
 import RegisterPage from './Components/Authorization/RegisterPage';
+import getData from './API/getData'
+import { writeNote, deleteNote } from './API/Notes'
 
 /* TODO:
  * - [X] Authorization server
@@ -14,7 +15,9 @@ import RegisterPage from './Components/Authorization/RegisterPage';
  * - [X] Auth validation
  * - [X] Exception alerts
  * - Upgrade universal alert
- * - NodeJS server
+ * - NodeJS server for notes
+ * - API for CRUD endpoints
+ * - Refactoring frontend for work with endpoints
  * - [X] Animation when update mainside
  * - [X] Tags
  * - --Colors--
@@ -34,20 +37,21 @@ import RegisterPage from './Components/Authorization/RegisterPage';
  * - [X] !BUG! reset changes in new task = error
  * - Unnecessary tagHandler (there is universal)
  * - Add special function for opening workspace
+ * - Ref is null at LoginPage
  */
 
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      notes: JSON.parse(localStorage.getItem('notesData')) ? //list of notes
-      JSON.parse(localStorage.getItem('notesData')) : [],
+      notes: [], // list of notes
       currentNote: {}, //selected note
       isWorkspaceOn: false, //enabling workspace
       lastTags: [], //last 3 tags
       auth: false, //did user authentificated
       userdata: {} //data {id, username}
     }
+    this.getNoteList = this.getNoteList.bind(this)
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveCurrentNote = this.saveCurrentNote.bind(this)
@@ -61,6 +65,21 @@ class App extends React.Component {
     this.getLastTags = this.getLastTags.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
     this.getUserData = this.getUserData.bind(this)
+  }
+
+  // -- -- -- -- -- New methods (for endpoints)
+
+  getNoteList() {
+    getData('note-list').then(data => {
+      if (data.ok) {
+        this.setState({notes: data.noteList})
+      } else console.log(data)
+    })
+  }
+
+  saveNoteOnServer(note) {
+    if((!note) || (!note.description) || (!note.content)) return alert('Note must have description & content') //Перенести в хендлер
+    writeNote(note).then()
   }
 
   // Setting local storage
@@ -105,7 +124,7 @@ class App extends React.Component {
 
   getNoteById(id) {
     const note = this.state.notes.filter(element => {
-      return element.id === id
+      return element._id === id
     })
     if (note.length > 0) return note[0]
     return false
@@ -123,7 +142,7 @@ class App extends React.Component {
   // save selected note to storage
 
   saveCurrentNote() {
-    const activeNote = this.getNoteById(this.state.currentNote.id)
+    const activeNote = this.getNoteById(this.state.currentNote._id)
 
     if (activeNote) {
       //Updating notesArr
@@ -293,11 +312,13 @@ class App extends React.Component {
 
   getUserData() {
     getData('logged').then(data => {
+      console.log(data)
       if (data.ok) this.setState({userdata: data.userdata, auth: data.auth})
     })
   }
 
   componentDidMount() {
+    this.getNoteList()
     this.getLastTags()
     this.getUserData()
   }

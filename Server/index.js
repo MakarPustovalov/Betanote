@@ -30,7 +30,8 @@ app.use('', indexRouter)
 
 app.use((err, req, res, next) => {
   console.error(err)
-  let auth = true
+  let auth = err.auth
+  if (auth === undefined) auth = true
   if (err instanceof AuthError) auth = false //Checking if error caused by authentification
   res.status(err.status || 400).json({message: err.message, error: err, auth})
 })

@@ -1,6 +1,6 @@
 import { React, Component } from 'react';
 import { NavLink } from 'react-router-dom'
-import logout from '../../API/logout'
+import { logout } from '../../API/Auth'
 
 class HeaderBar extends Component {
   constructor() {
@@ -19,7 +19,7 @@ class HeaderBar extends Component {
   
         {this.props.auth ?
           <div className="headerbar__right">
-            <p className="headerbar__text">Welcome, {this.props.userdata.username}!</p>
+            <p className="headerbar__text">Welcome back, <span>{this.props.userdata.username}</span>!</p>
             <p to="/logout" className="headerbar__link" onClick={this.logoutHandler}>Logout</p>
           </div>
           :

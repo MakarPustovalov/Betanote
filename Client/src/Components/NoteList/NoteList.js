@@ -17,8 +17,8 @@ function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickH
           return (
 
             <div
-              key={element.id}
-              id={element.id} 
+              key={element._id}
+              id={element._id} 
               className="sidebar__note animate__animated animate__fadeIn"
               onClick={noteClickHandler}
             >
@@ -49,10 +49,10 @@ function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickH
             return (
 
               <div
-              key={element.id}
-              id={element.id} 
-              className="sidebar__note animate__animated animate__fadeIn"
-              onClick={noteClickHandler}
+                key={element._id}
+                id={element._id} 
+                className="sidebar__note animate__animated animate__fadeIn"
+                onClick={noteClickHandler}
               >
 
                 <span className="sidebar__note-text">{element.description}</span>

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const Token = require('../models/Token')
+const { ExpiredTokenError, BadRequestError } = require('../errors/Errors')
 
 const createAccessToken = user => {
   try {
@@ -24,7 +25,7 @@ const verifyAccessToken = token => {
   try {
 
     const payload = jwt.verify(token, config.jwt.accessSecret)
-    if ((!payload) || (!(payload.type === 'access'))) throw new Error('Invalid token')
+    if ((!payload) || (!(payload.type === 'access'))) throw new BadRequestError('Invalid token')
     return payload
     
   } catch (error) {
@@ -65,10 +66,10 @@ async function verifyRefreshToken (refreshToken) {
   try {
     
     const payload = jwt.verify(refreshToken, config.jwt.refreshSecret)
-    if(!(payload) || !(payload.type === 'refresh')) throw new Error('Invalid refresh token')
+    if(!(payload) || !(payload.type === 'refresh')) throw new BadRequestError('Invalid refresh token')
 
     const token = await Token.findOne({userId: payload.id})
-    if(!token) throw new Error('Invalid refresh token')
+    if(!token) throw new BadRequestError('Invalid refresh token')
 
     return payload
 
