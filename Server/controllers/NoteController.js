@@ -79,6 +79,21 @@ class NoteController {
     }
   }
 
+  async deleteNote(req, res, next) {
+    try {
+
+      let rawNote = req.data.note
+
+      const newNote = await Note.findOneAndDelete({_id: rawNote._id, userId: rawNote.userId})
+      if (newNote) return res.json({message: 'Successfully deleted note', noteId: newNote._id, auth: true})
+      
+      return next(new BadRequestError("Note with this ID doesn't exist or you haven't permission"))
+      
+    } catch (error) {
+      return next(error)
+    }
+  }
+
 }
 
 module.exports = new NoteController()

@@ -11,5 +11,7 @@ router.get('/note-list', [authMW, noteController.getNoteList])
 
 router.post('/write-note', [authMW, noteMW, noteController.writeNote])
 
+router.delete('/delete-note', [authMW, noteMW, noteController.deleteNote])
+
 
 module.exports = router

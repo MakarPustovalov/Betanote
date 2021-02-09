@@ -8,7 +8,7 @@ const noteMW = (req, res, next) => {
 
     let note = req.body.note
 
-    if((!note) || (!note.description) || (!note.content)) return next(new BadRequestError('Invalid note'))
+    if(!note) return next(new BadRequestError('Invalid note'))
 
     note.userId = req.data.userId
 
