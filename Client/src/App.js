@@ -211,13 +211,6 @@ class App extends React.Component {
   // UI Methods & handlers
   // -- -- -- -- --
 
-  // Setting local storage
-
-  setLocalStorage() {
-    const notesData = JSON.stringify(this.state.notes)
-    localStorage.setItem('notesData', notesData)
-  }
-
   // Universal handler for input (notes)
 
   inputHandler(event) {
@@ -269,41 +262,6 @@ class App extends React.Component {
     }
 
     this.setState({lastTags: newTags})
-  }
-
-  setInitialCookie() {
-    function setCookie(name, value, options = {}) {
-      options = {
-        path: '/',
-        ...options
-      };
-
-      if (options.expires instanceof Date) {
-        options.expires = options.expires.toUTCString();
-      }
-
-      let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
-      for (let optionKey in options) {
-        updatedCookie += "; " + optionKey;
-        let optionValue = options[optionKey];
-        if (optionValue !== true) {
-          updatedCookie += "=" + optionValue;
-        }
-      }
-    
-      document.cookie = updatedCookie;
-    }
-
-    let date = new Date(Date.now() + 15552000e3);
-    date = date.toUTCString();
-    setCookie('needGuide', false, {expires: date})
-  }
-
-  getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
   updateAuth(auth) {
