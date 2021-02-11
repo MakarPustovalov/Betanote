@@ -64,7 +64,7 @@ class App extends React.Component {
     this.saveHandler = this.saveHandler.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
-    this.openWorkspace = this.openWorkspace.bind(this)
+    this.openWorkSpace = this.openWorkSpace.bind(this)
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
