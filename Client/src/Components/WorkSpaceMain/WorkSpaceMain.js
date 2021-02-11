@@ -2,7 +2,7 @@ import React from 'react'
 
 function WorkSpaceMain({
     currentNote,
-    inputHandler,
+    noteInputHandler,
     hideTagInput
   }) {
 
@@ -12,7 +12,7 @@ function WorkSpaceMain({
       <textarea
       name="content"
       className="mainside__textarea"
-      onChange={inputHandler}
+      onChange={noteInputHandler}
       value={currentNote.content}
       />
   

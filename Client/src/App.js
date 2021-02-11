@@ -35,9 +35,10 @@ import { createNote, updateNote, deleteNote } from './API/Notes'
  * - DOCUMENTATION!!!
  * - Move guide to other route
  * - Active note must highlighted in list
+ * - Improve searching by tags
  * FIXME:
  * - [X] !BUG! reset changes in new task = error
- * - Unnecessary tagHandler (there is universal)
+ * - [X] Unnecessary tagInputHandler (there is universal)
  * - Add special function for opening workspace
  * - [X] Ref is null at LoginPage
  * - [X] Create SEPARATED endpoints for creating and updating
@@ -57,7 +58,7 @@ class App extends React.Component {
     this.getNoteList = this.getNoteList.bind(this)
     this.createNoteOnServer = this.createNoteOnServer.bind(this)
     this.updateNoteOnServer = this.updateNoteOnServer.bind(this)
-    this.inputHandler = this.inputHandler.bind(this)
+    this.noteInputHandler = this.noteInputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveCurrentNote = this.saveCurrentNote.bind(this)
     this.saveHandler = this.saveHandler.bind(this)
@@ -66,7 +67,6 @@ class App extends React.Component {
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
-    this.tagInputHandler = this.tagInputHandler.bind(this)
     this.getLastTags = this.getLastTags.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
     this.getUserData = this.getUserData.bind(this)
@@ -240,24 +240,11 @@ class App extends React.Component {
 
   // Universal handler for input (notes)
 
-  inputHandler(event) {
+  noteInputHandler(event) {
     this.setState(state => {
       return {currentNote: 
         {...state.currentNote, [event.target.name]: event.target.value}
       }
-    })
-  }
-
-  // FIXME: unnecessary handler for tags
-
-  tagInputHandler(event) {
-    this.setState(state => {
-        return {
-          currentNote: {
-            ...state.currentNote,
-            tag: event.target.value
-          }
-        }
     })
   }
 
@@ -269,6 +256,8 @@ class App extends React.Component {
       this.getLastTags()
     })
   }
+
+  // get list of last 3 tags
 
   getLastTags() {
     const tagsArr = this.state.notes.map(elem => elem.tag)
@@ -291,6 +280,8 @@ class App extends React.Component {
     this.setState({lastTags: newTags})
   }
 
+  // update auth state in app
+
   updateAuth(auth) {
     this.setState({auth}, () => {
       if (auth) {
@@ -301,6 +292,8 @@ class App extends React.Component {
       }
     })
   }
+
+  // get data about logged user
 
   getUserData() {
     getData('logged').then(data => {
@@ -337,13 +330,12 @@ class App extends React.Component {
 
               <MainSide
                 currentNote={this.state.currentNote}
-                inputHandler={this.inputHandler}
+                noteInputHandler={this.noteInputHandler}
                 isWorkspaceOn={this.state.isWorkspaceOn}
                 saveHandler={this.saveHandler}
                 closeWorkspace={this.closeWorkspace}
                 deleteNoteHandler={this.deleteNoteHandler}
                 resetChanges={this.resetChanges}
-                tagInputHandler={this.tagInputHandler}
               />
 
             </div>

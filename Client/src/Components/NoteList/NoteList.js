@@ -5,42 +5,44 @@ function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickH
   return(
     <div className="sidebar__notes">
 
-      <div onClick={createNewNote} className="sidebar__note sidebar__note-add">
-        <span className="sidebar__note-text">Add new note...</span>
-        <img src={plus} alt="Add" />
-      </div>
-
       {
         currentTag === '' ? //if current tag not specified (no searching by tag)
+
+        <>
+          <div onClick={createNewNote} className="sidebar__note sidebar__note-add">
+            <span className="sidebar__note-text">Add new note...</span>
+            <img src={plus} alt="Add" />
+          </div>
         
-        notes.map(element => {
-          return (
+          {notes.map(element => {
+            return (
 
-            <div
-              key={element._id}
-              id={element._id} 
-              className="sidebar__note animate__animated animate__fadeIn"
-              onClick={noteClickHandler}
-            >
+              <div
+                key={element._id}
+                id={element._id} 
+                className="sidebar__note animate__animated animate__fadeIn"
+                onClick={noteClickHandler}
+              >
 
-              <span className="sidebar__note-text">{element.description}</span>
+                <span className="sidebar__note-text">{element.description}</span>
 
-              {element.tag !== '' ? 
-                <div
-                  id={element.tag}
-                  className="sidebar__tag"
-                  onClick={tagClickHandler}
-                >
-                  <div className="sidebar__tag-circle"></div>
-                  <span className="sidebar__tag-text">{element.tag}</span>
-                </div>
-                : false  
-              }
+                {element.tag !== '' ? 
+                  <div
+                    id={element.tag}
+                    className="sidebar__tag"
+                    onClick={tagClickHandler}
+                  >
+                    <div className="sidebar__tag-circle"></div>
+                    <span className="sidebar__tag-text">{element.tag}</span>
+                  </div>
+                  : false  
+                }
 
-            </div>
+              </div>
 
-          )
-        })
+            )
+          })}
+        </>
 
         : //display notes with tag which is being searched
 

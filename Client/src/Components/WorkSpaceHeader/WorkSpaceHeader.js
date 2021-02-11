@@ -8,13 +8,12 @@ import deleteBtn from '../../Assets/img/buttons/delete.svg'
 
 function WorkSpaceHeader({
     currentNote,
-    inputHandler,
+    noteInputHandler,
     saveHandler,
     closeWorkspace,
     deleteNoteHandler,
     resetChanges,
-    setTagBtnHandler,
-    tagInputHandler
+    setTagBtnHandler
   }) {
 
   return (
@@ -22,23 +21,23 @@ function WorkSpaceHeader({
       
       <img src={logo}
       alt="Betanote"
-      className="mainside__heading-logo" />
+      className="mainside__heading-logo"/>
   
-      <input
-      className="mainside__description"
-      placeholder="Note description"
-      name="description"
-      onChange={inputHandler}
-      value={currentNote.description}
+      <input type="text"
+        className="mainside__description"
+        placeholder="Note description"
+        name="description"
+        onChange={noteInputHandler}
+        value={currentNote.description}
       />
 
       <input type="text"
-      className="mainside__tag-input animate__animated"
-      name="tag"
-      placeholder="Enter a tag name..."
-      maxLength="10"
-      onChange={tagInputHandler}
-      value={currentNote.tag}
+        className="mainside__tag-input animate__animated"
+        name="tag"
+        placeholder="Enter a tag name..."
+        maxLength="10"
+        onChange={noteInputHandler}
+        value={currentNote.tag}
       />
   
       <div className="mainside__controls">

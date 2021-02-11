@@ -47,13 +47,12 @@ class MainSide extends React.Component {
             {this.props.isWorkspaceOn ? 
               <WorkSpace
                 currentNote={this.props.currentNote}
-                inputHandler={this.props.inputHandler}
+                noteInputHandler={this.props.noteInputHandler}
                 saveHandler={this.props.saveHandler}
                 closeWorkspace={this.props.closeWorkspace}
                 deleteNoteHandler={this.props.deleteNoteHandler}
                 resetChanges={this.props.resetChanges}
                 setTagBtnHandler={this.setTagBtnHandler}
-                tagInputHandler={this.props.tagInputHandler}
                 hideTagInput={this.hideTagInput}
               />
               :

@@ -66,7 +66,7 @@ class Sidebar extends React.Component {
 
             {this.state.currentTag !== '' ?
               <p className="sidebar__currentSearch">
-                Notes with tag <span>{this.state.currentTag}</span>
+                Searching notes with tag "<span>{this.state.currentTag}</span>"
                 <img src={cross} alt="Cancel" onClick={this.cancelSearch}/>
               </p>
             : false}
