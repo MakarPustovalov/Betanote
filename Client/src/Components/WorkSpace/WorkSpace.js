@@ -1,5 +1,4 @@
 import React from 'react'
-import WorkSpaceGuide from '../WorkSpaceGuide/WorkSpaceGuide';
 import WorkSpaceHeader from '../WorkSpaceHeader/WorkSpaceHeader'
 import WorkSpaceMain from '../WorkSpaceMain/WorkSpaceMain'
 

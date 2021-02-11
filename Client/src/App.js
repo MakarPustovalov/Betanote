@@ -15,9 +15,9 @@ import { createNote, updateNote, deleteNote } from './API/Notes'
  * - [X] Auth validation
  * - [X] Exception alerts
  * - Upgrade universal alert
- * - NodeJS server for notes
- * - API for CRUD endpoints
- * - Refactoring frontend for work with endpoints
+ * - [X] NodeJS server for notes
+ * - [X] API for CRUD endpoints
+ * - [X] Refactoring frontend for work with endpoints
  * - [X] Animation when update mainside
  * - [X] Tags
  * - --Colors--
@@ -25,12 +25,12 @@ import { createNote, updateNote, deleteNote } from './API/Notes'
  * - [X] Tags navigation
  * - Confirmations (close, reset, delete)
  * - Preloader
- * - Adaptive for mobile
+ * - Adaptive for mobile!!!
  * - [X] Hints for buttons
  * - [X] Validate inputs
  * - Animation for tags line
  * - [X] Quick guide
- * - Animation for guide
+ * - --Animation for guide--
  * - [X] Favicon & title
  * - DOCUMENTATION!!!
  * - Move guide to other route
