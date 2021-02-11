@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import LoginPage from './Components/Authorization/LoginPage';
 import RegisterPage from './Components/Authorization/RegisterPage';
 import getData from './API/getData'
-import { writeNote, deleteNote } from './API/Notes'
+import { createNote, updateNote, deleteNote } from './API/Notes'
 
 /* TODO:
  * - [X] Authorization server
@@ -33,12 +33,14 @@ import { writeNote, deleteNote } from './API/Notes'
  * - Animation for guide
  * - [X] Favicon & title
  * - DOCUMENTATION!!!
+ * - Move guide to other route
+ * - Active note must highlighted in list
  * FIXME:
  * - [X] !BUG! reset changes in new task = error
  * - Unnecessary tagHandler (there is universal)
  * - Add special function for opening workspace
- * - Ref is null at LoginPage
- * - Create SEPARATED endpoints for creating and updating
+ * - [X] Ref is null at LoginPage
+ * - [X] Create SEPARATED endpoints for creating and updating
  */
 
 class App extends React.Component {
@@ -53,6 +55,8 @@ class App extends React.Component {
       userdata: {} //data {id, username}
     }
     this.getNoteList = this.getNoteList.bind(this)
+    this.createNoteOnServer = this.createNoteOnServer.bind(this)
+    this.updateNoteOnServer = this.updateNoteOnServer.bind(this)
     this.inputHandler = this.inputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveCurrentNote = this.saveCurrentNote.bind(this)
@@ -68,18 +72,17 @@ class App extends React.Component {
     this.getUserData = this.getUserData.bind(this)
   }
 
-  // -- -- -- -- -- API methods (for endpoints)
+  // -- -- -- -- --
+  // API methods (for endpoints)
+  // -- -- -- -- --
 
   getNoteList() {
     getData('note-list').then(data => {
       if (!data.ok) console.log(data)
+      if (!data.noteList) data.noteList = []
       this.setState({notes: data.noteList, auth: data.auth})
+      this.getLastTags()
     })
-  }
-
-  saveNoteOnServer(note) {
-    if((!note) || (!note.description) || (!note.content)) return alert('Note must have description & content') //Перенести в хендлер
-    writeNote(note).then()
   }
 
   // delete note which is selected
@@ -107,6 +110,34 @@ class App extends React.Component {
     this.closeWorkspace()
   }
 
+  createNoteOnServer(note) {
+    if (note._id) return this.updateNoteOnServer(note)
+    if((!note.description) || (!note.content)) return alert('Note must have descripion and content')
+    createNote(note).then(data => {
+      if (!data.ok) return console.log(data)
+      console.log(data)
+      this.setState(state => {
+        return {
+          ...this.state,
+          currentNote: {
+            ...state.currentNote,
+            _id: data.noteId
+          }
+        }
+      }, this.getNoteList())
+    })
+  }
+
+  updateNoteOnServer(note) {
+    if (!note._id) return this.createNoteOnServer(note)
+    if((!note.description) || (!note.content)) return alert('Note must have descripion and content')
+
+    updateNote(note).then(data => {
+      if (!data.ok) return console.log(data)
+      this.getNoteList()
+    })
+  }
+
   // -- -- -- -- --
   // Note Methods & handlers
   // -- -- -- -- --
@@ -132,16 +163,12 @@ class App extends React.Component {
   // save selected note to storage
 
   saveCurrentNote() {
-    writeNote(this.state.currentNote).then(data => {
-      if (!data.ok) {
+    let note = this.state.currentNote
+    if((!note) || (!note.description) || (!note.content)) return alert('Note must have description & content')
 
-        this.updateAuth(data.auth)
-        return alert(data.message)
-
-      } else {
-        this.getNoteList()
-      }
-    })
+    const existingNote = this.getNoteById(note._id)
+    if (!existingNote) return this.createNoteOnServer(note)
+    return this.updateNoteOnServer(note)
   }
 
   // handler for saving current note
@@ -208,7 +235,7 @@ class App extends React.Component {
   }
 
   // -- -- -- -- --
-  // UI Methods & handlers
+  // App Methods & handlers
   // -- -- -- -- --
 
   // Universal handler for input (notes)
@@ -266,13 +293,19 @@ class App extends React.Component {
 
   updateAuth(auth) {
     this.setState({auth}, () => {
-      this.getUserData()
+      if (auth) {
+        this.getUserData()
+        this.getNoteList()
+      } else {
+        this.setState({notes: []})
+      }
     })
   }
 
   getUserData() {
     getData('logged').then(data => {
       if (data.ok) return this.setState({userdata: data.userdata, auth: data.auth})
+      if (!data.ok && !data.auth) return this.setState({userdata: {}, auth: data.auth})
     })
   }
 
@@ -280,10 +313,6 @@ class App extends React.Component {
     this.getUserData()
     this.getNoteList()
     this.getLastTags()
-  }
-
-  componentDidUpdate() {
-    this.setLocalStorage()
   }
 
   render() {
@@ -300,22 +329,21 @@ class App extends React.Component {
             <div className="app">
 
               <Sidebar
-              notes={this.state.notes}
-              noteClickHandler={this.noteClickHandler}
-              createNewNote={this.createNewNote}
-              lastTags={this.state.lastTags}
+                notes={this.state.notes}
+                noteClickHandler={this.noteClickHandler}
+                createNewNote={this.createNewNote}
+                lastTags={this.state.lastTags}
               />
 
               <MainSide
-              currentNote={this.state.currentNote}
-              inputHandler={this.inputHandler}
-              isWorkspaceOn={this.state.isWorkspaceOn}
-              saveHandler={this.saveHandler}
-              closeWorkspace={this.closeWorkspace}
-              deleteNoteHandler={this.deleteNoteHandler}
-              resetChanges={this.resetChanges}
-              tagInputHandler={this.tagInputHandler}
-              getCookie={this.getCookie}
+                currentNote={this.state.currentNote}
+                inputHandler={this.inputHandler}
+                isWorkspaceOn={this.state.isWorkspaceOn}
+                saveHandler={this.saveHandler}
+                closeWorkspace={this.closeWorkspace}
+                deleteNoteHandler={this.deleteNoteHandler}
+                resetChanges={this.resetChanges}
+                tagInputHandler={this.tagInputHandler}
               />
 
             </div>

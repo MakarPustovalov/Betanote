@@ -12,8 +12,7 @@ function WorkSpace({
     resetChanges,
     setTagBtnHandler,
     tagInputHandler,
-    hideTagInput,
-    getCookie
+    hideTagInput
   }){
 
   return(
@@ -34,10 +33,6 @@ function WorkSpace({
         inputHandler={inputHandler}
         hideTagInput={hideTagInput}
       />
-
-      {!(getCookie('needGuide')) ? 
-        <WorkSpaceGuide />
-      : false}
     </>
   )
 }

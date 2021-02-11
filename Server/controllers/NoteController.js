@@ -47,34 +47,42 @@ class NoteController {
     }
   }
 
-  async writeNote (req, res, next) {
+  async createNote (req, res, next) {
     try {
 
       let rawNote = req.data.note
 
-      if (rawNote._id) {
+      if (rawNote._id) return next(new BadRequestError('New note must not have provided id'))
 
-        const newNote = await Note.findOneAndUpdate({_id: rawNote._id, userId: rawNote.userId}, {...rawNote}, {new: true, useFindAndModify: false})
-        if (newNote) return res.json({message: 'Successfully saved note', noteId: newNote._id, auth: true})
-        return next(new BadRequestError("Note with this ID doesn't exist or you haven't permission"))
+      if((!rawNote.description) || (!rawNote.content)) return next(new BadRequestError('Note must have description and some content'))
 
-      } else {
+      let newNote = new Note({
+        ...rawNote
+      })
 
-        const existingNote = await Note.findOne({...rawNote})
-        if (existingNote) return next(new BadRequestError('This note already exists and noteID is not provided'))
-
-        let newNote = new Note({
-          ...rawNote
-        })
-
-        newNote = await newNote.save()
-        return res.json({message: 'Successfully saved note', noteId: newNote._id, auth: true})
-
-      }
+      newNote = await newNote.save()
+      return res.json({message: 'Successfully created note', noteId: newNote._id, auth: true})
       
     } catch (error) {
-      if (error.message && error.message.includes('Cast')) return next(new BadRequestError('Invalid note id'))
-      if (error._message && error._message.includes('validation')) return next(new BadRequestError('Invalid note'))
+      return next(error)
+    }
+  }
+
+  async updateNote(req, res, next) {
+    try {
+
+      let rawNote = req.data.note
+
+      if(!rawNote._id) return next(new NotFoundError('Note id is not provided'))
+
+      if((!rawNote.description) || (!rawNote.content)) return next(new BadRequestError('Note must have description and some content'))
+
+      const newNote = await Note.findOneAndUpdate({_id: rawNote._id, userId: rawNote.userId}, {...rawNote}, {new: true, useFindAndModify: false})
+      if (!newNote) return next(new NotFoundError("Note with this ID doesn't exist"))
+
+      res.json({message: 'Successfully updated note', noteId: newNote._id, auth: true})
+
+    } catch (error) {
       return next(error)
     }
   }

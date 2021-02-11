@@ -9,7 +9,9 @@ router.get('/logged', authMW, (req, res) => {
 
 router.get('/note-list', [authMW, noteController.getNoteList])
 
-router.post('/write-note', [authMW, noteMW, noteController.writeNote])
+router.post('/create-note', [authMW, noteMW, noteController.createNote])
+
+router.post('/update-note', [authMW, noteMW, noteController.updateNote])
 
 router.delete('/delete-note', [authMW, noteMW, noteController.deleteNote])
 

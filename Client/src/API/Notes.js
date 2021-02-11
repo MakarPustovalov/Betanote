@@ -1,7 +1,20 @@
 import config from '../config'
 import { refreshTokens } from './Auth'
 
-export async function writeNote(note) {
+//result errors:
+// DBError 500
+// ServerError 500
+// UnathorizedError 401
+// NotFoundError 404
+// BadRequestError 400
+
+// result.error = {
+//    name: String,
+//    status: Number  
+// }
+
+
+export async function createNote(note) {
   try {
 
     if((!note) || (!note.description) || (!note.content)) return {ok: false, message: "Title nor content cannot be empty"}
@@ -10,7 +23,7 @@ export async function writeNote(note) {
       note
     })
     
-    const response = await fetch(config.API_ROUTE + 'write-note', {
+    const response = await fetch(config.API_ROUTE + 'create-note', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -50,26 +63,78 @@ export async function writeNote(note) {
             return result
 
           }
-
         }
-
       }
       
       result.ok = false
     }
 
-    //result errors:
-    // DBError 500
-    // ServerError 500
-    // UnathorizedError 401
-    // NotFoundError 404
-    // BadRequestError 400
+    return result
 
-    // result.error = {
-    //    name: String,
-    //    status: Number  
-    // }
+  } catch (error) {
+    console.error(error)
+    return {
+      ok: false,
+      message: 'Server connection error'
+    }
+  }
+}
+
+export async function updateNote(note) {
+  try {
+
+    if((!note) || (!note.description) || (!note.content)) return {ok: false, message: "Title nor content cannot be empty"}
+
+    const payload = JSON.stringify({
+      note
+    })
     
+    const response = await fetch(config.API_ROUTE + 'update-note', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: payload
+    })
+
+    let result = await response.json();
+
+    //Checking if token expired (ExpiredTokenError 401)
+
+    if (response.ok) {
+      result.ok = true
+    } else {
+
+      if (result.error) {
+
+        if (result.error.name === 'ExpiredTokenError') {
+
+          const refresh = await refreshTokens()
+          if (refresh.ok) {
+    
+            const response = await fetch(config.API_ROUTE + 'write-note', {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },
+              body: payload
+            })
+        
+            let result = await response.json();
+
+            response.ok ? result.ok = true : result.ok = false
+
+            return result
+
+          }
+        }
+      }
+      
+      result.ok = false
+    }
+
     return result
 
   } catch (error) {
@@ -130,26 +195,12 @@ export async function deleteNote(noteId) {
             return result
 
           }
-
         }
-
       }
       
       result.ok = false
     }
 
-    //result errors:
-    // DBError 500
-    // ServerError 500
-    // UnathorizedError 401
-    // NotFoundError 404
-    // BadRequestError 400
-
-    // result.error = {
-    //    name: String,
-    //    status: Number  
-    // }
-    
     return result
 
   } catch (error) {
