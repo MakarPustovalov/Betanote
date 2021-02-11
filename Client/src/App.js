@@ -39,7 +39,7 @@ import { createNote, updateNote, deleteNote } from './API/Notes'
  * FIXME:
  * - [X] !BUG! reset changes in new task = error
  * - [X] Unnecessary tagInputHandler (there is universal)
- * - Add special function for opening workspace
+ * - [X] Add special function for opening workspace
  * - [X] Ref is null at LoginPage
  * - [X] Create SEPARATED endpoints for creating and updating
  */
@@ -64,6 +64,7 @@ class App extends React.Component {
     this.saveHandler = this.saveHandler.bind(this)
     this.createNewNote =this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
+    this.openWorkspace = this.openWorkspace.bind(this)
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
@@ -157,7 +158,7 @@ class App extends React.Component {
   noteClickHandler(event) {
     const id = event.currentTarget.id
     const note = this.getNoteById(id)
-    this.setState({currentNote: note, isWorkspaceOn: true})
+    this.setState({currentNote: note}, this.openWorkSpace())
   }
 
   // save selected note to storage
@@ -203,7 +204,7 @@ class App extends React.Component {
       description: '',
       content: "",
       tag: ""
-    }, isWorkspaceOn: true})
+    }}, this.openWorkSpace())
   }
 
   // clear selected note in app cache
@@ -255,6 +256,12 @@ class App extends React.Component {
       this.clearCurrentNote()
       this.getLastTags()
     })
+  }
+
+  // open workspace
+
+  openWorkSpace() {
+    this.setState({isWorkspaceOn: false})
   }
 
   // get list of last 3 tags
