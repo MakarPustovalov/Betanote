@@ -1,0 +1,31 @@
+@import '../../Assets/mixins.scss';
+
+.guide{
+  width: 100%;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+
+  &__title{
+    @include montserratM(36px);
+    margin-bottom: 50px;
+  }
+
+  &__text{
+    @include montserratR(18px);
+    margin-bottom: 25px;
+  }
+
+  &__img{
+    max-width: 100%;
+    object-fit: contain;
+    margin-bottom: 25px;
+  }
+
+  span{
+    color: $red1;
+  }
+
+  :last-child{
+    @include montserratM(18px);
+  }
+}

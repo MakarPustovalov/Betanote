@@ -4,24 +4,28 @@
   font-family: 'Roboto';
   font-weight: 400;
   font-size: $size;
+  line-height: 150%;
 }
 
 @mixin robotoM ($size: 18px) {
   font-family: 'Roboto';
   font-weight: 500;
   font-size: $size;
+  line-height: 150%;
 }
 
 @mixin montserratR ($size: 18px) {
   font-family: 'Montserrat';
   font-weight: 400;
   font-size: $size;
+  line-height: 150%;
 }
 
 @mixin montserratM ($size: 18px) {
   font-family: 'Montserrat';
   font-weight: 500;
   font-size: $size;
+  line-height: 150%;
 }
 
 $red1: #F03A3A;

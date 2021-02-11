@@ -7,6 +7,7 @@ import LoginPage from './Components/Authorization/LoginPage';
 import RegisterPage from './Components/Authorization/RegisterPage';
 import getData from './API/getData'
 import { createNote, updateNote, deleteNote } from './API/Notes'
+import GuidePage from './Components/GuidePage/GuidePage';
 
 /* TODO:
  * - [X] Authorization server
@@ -261,7 +262,7 @@ class App extends React.Component {
   // open workspace
 
   openWorkSpace() {
-    this.setState({isWorkspaceOn: false})
+    this.setState({isWorkspaceOn: true})
   }
 
   // get list of last 3 tags
@@ -355,6 +356,10 @@ class App extends React.Component {
 
           <Route exact path="/login">
             <LoginPage updateAuth={this.updateAuth} auth={this.state.auth} />
+          </Route>
+
+          <Route exact path="/guide">
+            <GuidePage />
           </Route>
       
         </div>
