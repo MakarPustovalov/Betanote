@@ -1,0 +1,56 @@
+@import '../../Assets/mixins.scss';
+
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  padding-top: 15vh;
+}
+
+*{
+  transition: all ease 250ms;
+}
+
+.authpage{
+  width: 100%;
+
+  p{
+    text-align: center;
+  }
+
+  &__logo{
+    max-width: 350px;
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 40px;
+  }
+
+  &__button{
+    display: block;
+    margin: 30px auto;
+    @include robotoM(22px);
+    text-align: center;
+    color: $grey0;
+    border: none;
+    background-color: $blue1;
+    border-radius: 25px;
+    width: 150px;
+    height: 50px;
+
+    &:hover{
+      transform: scale(1.02)
+    }
+  }
+
+  &__link{
+    @include robotoR(22px);
+    text-align: center;
+    color: $blue1;
+    text-decoration: none;
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}
