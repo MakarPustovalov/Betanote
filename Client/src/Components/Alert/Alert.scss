@@ -1,0 +1,30 @@
+@import '../../Assets/mixins.scss';
+
+.alert{
+  position: fixed;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 15px;
+  top: 30px;
+  left: 0;
+  right: 0;
+  background-color: $red3;
+  border-radius: 25px;
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.75);
+  box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.75);
+
+  &__text{
+    @include montserratR(16px);
+    color: white;
+    text-align: center;
+  }
+}
+
+.info{
+  background-color: whitesmoke;
+
+  .alert__text{
+    color: black;
+  }
+}

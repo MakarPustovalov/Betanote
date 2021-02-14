@@ -8,6 +8,7 @@ import RegisterPage from './Components/Authorization/RegisterPage';
 import getData from './API/getData'
 import { createNote, updateNote, deleteNote } from './API/Notes'
 import GuidePage from './Components/GuidePage/GuidePage';
+import Alert from './Components/Alert/Alert';
 
 /* TODO:
  * - [X] Authorization server
@@ -310,6 +311,10 @@ class App extends React.Component {
     })
   }
 
+  displayAlert() {
+    
+  }
+
   componentDidMount() {
     this.getUserData()
     this.getNoteList()
@@ -320,6 +325,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="page">
+          <Alert message="Alert"/>
 
           <Route exact path="/">
 
