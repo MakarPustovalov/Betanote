@@ -2,6 +2,7 @@ import React from 'react'
 import plus from '../../Assets/img/plus.svg'
 
 function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickHandler}){
+
   return(
     <div className="sidebar__notes">
 
@@ -9,7 +10,7 @@ function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickH
         currentTag === '' ? //if current tag not specified (no searching by tag)
 
         <>
-          <div onClick={createNewNote} className="sidebar__note sidebar__note-add">
+          <div onClick={createNewNote} className="sidebar__note sidebar__note-add animated fadeIn">
             <span className="sidebar__note-text">Add new note...</span>
             <img src={plus} alt="Add" />
           </div>
@@ -20,7 +21,7 @@ function NoteList({notes, noteClickHandler, createNewNote, currentTag, tagClickH
               <div
                 key={element._id}
                 id={element._id} 
-                className="sidebar__note animate__animated animate__fadeIn"
+                className="sidebar__note animated fadeIn"
                 onClick={noteClickHandler}
               >
 

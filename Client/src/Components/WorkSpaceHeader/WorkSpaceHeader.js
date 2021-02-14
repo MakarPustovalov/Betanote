@@ -17,7 +17,7 @@ function WorkSpaceHeader({
   }) {
 
   return (
-    <header className="mainside__heading animate__animated animate__fadeIn">
+    <header className="mainside__heading animated fadeIn">
       
       <img src={logo}
       alt="Betanote"
@@ -32,7 +32,7 @@ function WorkSpaceHeader({
       />
 
       <input type="text"
-        className="mainside__tag-input animate__animated"
+        className="mainside__tag-input animated"
         name="tag"
         placeholder="Enter a tag name..."
         maxLength="10"

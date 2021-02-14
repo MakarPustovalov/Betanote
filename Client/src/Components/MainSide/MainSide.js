@@ -17,11 +17,11 @@ class MainSide extends React.Component {
       const elem = document.querySelector('.mainside__tag-input')
       if (this.state.isTagInputShow && elem) {
         elem.style.visibility = "visible"
-        elem.classList.add('animate__fadeInDown')
-        elem.classList.remove('animate__fadeOut')
+        elem.classList.add('fadeInDown')
+        elem.classList.remove('fadeOutUp')
       } else if (elem) {
-        elem.classList.add('animate__fadeOut')
-        elem.classList.remove('animate__fadeInDown')
+        elem.classList.add('fadeOutUp')
+        elem.classList.remove('fadeInDown')
       }
     })
   }
@@ -30,8 +30,8 @@ class MainSide extends React.Component {
     this.setState({isTagInputShow: false}, () => {
         const elem = document.querySelector('.mainside__tag-input')
         if (elem) {
-          elem.classList.remove('animate__fadeInDown')
-          elem.classList.add('animate__fadeOut')
+          elem.classList.remove('fadeInDown')
+          elem.classList.add('fadeOutUp')
         }
       }
     )
@@ -56,7 +56,7 @@ class MainSide extends React.Component {
                 hideTagInput={this.hideTagInput}
               />
               :
-              <div className="mainside__logo-container animate__animated animate__fadeIn">
+              <div className="mainside__logo-container animated fadeIn">
 
                 <img src={logo} alt="Betanote" className="mainside__logo"></img>
 

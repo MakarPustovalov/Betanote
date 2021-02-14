@@ -9,6 +9,7 @@ import getData from './API/getData'
 import { createNote, updateNote, deleteNote } from './API/Notes'
 import GuidePage from './Components/GuidePage/GuidePage';
 import Alert from './Components/Alert/Alert';
+import WOW from 'wowjs'
 
 /* TODO:
  * - [X] Authorization server
@@ -319,6 +320,11 @@ class App extends React.Component {
     this.getUserData()
     this.getNoteList()
     this.getLastTags()
+
+    // Initialise wow
+    new WOW.WOW({
+      live: false
+    }).init();
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React from 'react'
 import NoteList from '../NoteList/NoteList'
 import cross from '../../Assets/img/cross.png'
+import LastTagsLine from './LastTagsLine'
 
 class Sidebar extends React.Component {
   constructor() {
@@ -26,11 +27,10 @@ class Sidebar extends React.Component {
   }
 
   render() {
-
     return(
       <section className="sidebar">
         <div className="sidebar__wrapper">
-          <div className="sidebar__container animate__animated animate__fadeIn">
+          <div className="sidebar__container animated fadeIn">
     
             <div className="sidebar__header">
     
@@ -44,28 +44,14 @@ class Sidebar extends React.Component {
       
               <div className="sidebar__tag-line">
   
-                {this.props.lastTags.length > 0 ?
-                  this.props.lastTags.map(tag => {
-                    return(
-                      <div
-                        id={tag}
-                        key={Math.floor(Math.random() * 1000)}
-                        className="sidebar__tag"
-                        onClick={this.tagClickHandler}
-                      >
-                        <div className="sidebar__tag-circle"></div>
-                        <span className="sidebar__tag-text">{tag}</span>
-                      </div>
-                    )
-                  }) : false
-                }
+                {this.props.lastTags.length > 0 ? <LastTagsLine lastTags={this.props.lastTags} tagClickHandler={this.tagClickHandler} /> : false}
       
               </div>
     
             </div>
 
             {this.state.currentTag !== '' ?
-              <p className="sidebar__currentSearch">
+              <p className="sidebar__currentSearch animated fadeIn">
                 Searching notes with tag "<span>{this.state.currentTag}</span>"
                 <img src={cross} alt="Cancel" onClick={this.cancelSearch}/>
               </p>

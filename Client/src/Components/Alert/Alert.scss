@@ -1,6 +1,7 @@
 @import '../../Assets/mixins.scss';
 
 .alert{
+  z-index: 999;
   position: fixed;
   max-width: 500px;
   margin: 0 auto;

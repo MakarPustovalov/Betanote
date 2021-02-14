@@ -14,7 +14,7 @@ class HeaderBar extends Component {
 
   render() {
     return (
-      <nav className="headerbar">
+      <nav className="headerbar animated fadeInDown">
         <NavLink to="/guide" className="headerbar__link">How to use?</NavLink>
   
         {this.props.auth ?
