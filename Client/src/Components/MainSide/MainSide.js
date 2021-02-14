@@ -48,7 +48,7 @@ class MainSide extends React.Component {
               <WorkSpace
                 currentNote={this.props.currentNote}
                 noteInputHandler={this.props.noteInputHandler}
-                saveHandler={this.props.saveHandler}
+                saveCurrentNote={this.props.saveCurrentNote}
                 closeWorkspace={this.props.closeWorkspace}
                 deleteNoteHandler={this.props.deleteNoteHandler}
                 resetChanges={this.props.resetChanges}

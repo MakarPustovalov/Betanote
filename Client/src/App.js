@@ -8,7 +8,7 @@ import RegisterPage from './Components/Authorization/RegisterPage';
 import getData from './API/getData'
 import { createNote, updateNote, deleteNote } from './API/Notes'
 import GuidePage from './Components/GuidePage/GuidePage';
-import Alert from './Components/Alert/Alert';
+import Alert, { displayAlert } from './Components/Alert/Alert';
 import WOW from 'wowjs'
 
 /* TODO:
@@ -17,7 +17,7 @@ import WOW from 'wowjs'
  * - [X] Auth frontend
  * - [X] Auth validation
  * - [X] Exception alerts
- * - Upgrade universal alert
+ * - [X] Create custom alert
  * - [X] NodeJS server for notes
  * - [X] API for CRUD endpoints
  * - [X] Refactoring frontend for work with endpoints
@@ -45,6 +45,7 @@ import WOW from 'wowjs'
  * - [X] Add special function for opening workspace
  * - [X] Ref is null at LoginPage
  * - [X] Create SEPARATED endpoints for creating and updating
+ * - Rerendering app after any action
  */
 
 class App extends React.Component {
@@ -64,8 +65,7 @@ class App extends React.Component {
     this.noteInputHandler = this.noteInputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveCurrentNote = this.saveCurrentNote.bind(this)
-    this.saveHandler = this.saveHandler.bind(this)
-    this.createNewNote =this.createNewNote.bind(this)
+    this.createNewNote = this.createNewNote.bind(this)
     this.closeWorkspace = this.closeWorkspace.bind(this)
     this.openWorkSpace = this.openWorkSpace.bind(this)
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
@@ -101,7 +101,7 @@ class App extends React.Component {
     deleteNote(this.state.currentNote._id).then(data => {
       if(!data.ok) {
 
-        alert(data.message)
+        displayAlert(data.message)
         this.updateAuth(data.auth)
 
       } else {
@@ -116,7 +116,7 @@ class App extends React.Component {
 
   createNoteOnServer(note) {
     if (note._id) return this.updateNoteOnServer(note)
-    if((!note.description) || (!note.content)) return alert('Note must have descripion and content')
+    if((!note.description) || (!note.content)) return displayAlert('Note must have descripion and content')
     createNote(note).then(data => {
       if (!data.ok) return console.log(data)
       console.log(data)
@@ -134,7 +134,7 @@ class App extends React.Component {
 
   updateNoteOnServer(note) {
     if (!note._id) return this.createNoteOnServer(note)
-    if((!note.description) || (!note.content)) return alert('Note must have descripion and content')
+    if((!note.description) || (!note.content)) return displayAlert('Note must have descripion and content')
 
     updateNote(note).then(data => {
       if (!data.ok) return console.log(data)
@@ -168,36 +168,11 @@ class App extends React.Component {
 
   saveCurrentNote() {
     let note = this.state.currentNote
-    if((!note) || (!note.description) || (!note.content)) return alert('Note must have description & content')
+    if((!note) || (!note.description) || (!note.content)) return displayAlert('Note must have description & content')
 
     const existingNote = this.getNoteById(note._id)
     if (!existingNote) return this.createNoteOnServer(note)
     return this.updateNoteOnServer(note)
-  }
-
-  // handler for saving current note
-
-  saveHandler() {
-    if (this.state.currentNote.content === '') {
-      return alert('Please write some content for note')
-    }
-
-    if (this.state.currentNote.description === '') {
-
-      this.setState(state => {
-        return(
-          {
-            currentNote: {
-              ...state.currentNote,
-              description: "New note"
-            }
-          }
-        )
-      }, this.saveCurrentNote())
-
-    } else {
-      this.saveCurrentNote()
-    }
   }
 
   // create new current note
@@ -312,10 +287,6 @@ class App extends React.Component {
     })
   }
 
-  displayAlert() {
-    
-  }
-
   componentDidMount() {
     this.getUserData()
     this.getNoteList()
@@ -331,7 +302,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="page">
-          <Alert message="Alert"/>
+          <Alert />
 
           <Route exact path="/">
 
@@ -352,10 +323,10 @@ class App extends React.Component {
                 currentNote={this.state.currentNote}
                 noteInputHandler={this.noteInputHandler}
                 isWorkspaceOn={this.state.isWorkspaceOn}
-                saveHandler={this.saveHandler}
                 closeWorkspace={this.closeWorkspace}
                 deleteNoteHandler={this.deleteNoteHandler}
                 resetChanges={this.resetChanges}
+                saveCurrentNote={this.saveCurrentNote}
               />
 
             </div>

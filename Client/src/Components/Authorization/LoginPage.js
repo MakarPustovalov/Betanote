@@ -4,6 +4,7 @@ import logo from '../../Assets/img/logo.png'
 import { login } from '../../API/Auth'
 import { NavLink, Redirect } from 'react-router-dom'
 import Input from '../Input/Input'
+import { displayAlert } from '../Alert/Alert';
 
 class LoginPage extends Component {
   constructor() {
@@ -32,7 +33,7 @@ class LoginPage extends Component {
         } else if (data.message.includes('Password')) {
           this.passwordInput.current.errorHandler(data.message)
         } else {
-          alert(data.message)
+          displayAlert(data.message)
         }
       }
       this.props.updateAuth(data.auth)

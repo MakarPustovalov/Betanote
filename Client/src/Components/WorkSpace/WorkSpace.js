@@ -5,7 +5,7 @@ import WorkSpaceMain from '../WorkSpaceMain/WorkSpaceMain'
 function WorkSpace({
     currentNote,
     noteInputHandler,
-    saveHandler,
+    saveCurrentNote,
     closeWorkspace,
     deleteNoteHandler,
     resetChanges,
@@ -18,7 +18,7 @@ function WorkSpace({
       <WorkSpaceHeader
         currentNote={currentNote}
         noteInputHandler={noteInputHandler}
-        saveHandler={saveHandler}
+        saveCurrentNote={saveCurrentNote}
         closeWorkspace={closeWorkspace}
         deleteNoteHandler={deleteNoteHandler}
         resetChanges={resetChanges}

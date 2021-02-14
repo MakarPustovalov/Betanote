@@ -4,6 +4,7 @@ import logo from '../../Assets/img/logo.png'
 import { register } from '../../API/Auth'
 import { NavLink, Redirect } from 'react-router-dom'
 import Input from '../Input/Input'
+import { displayAlert } from '../Alert/Alert';
 
 class RegisterPage extends Component {
   constructor() {
@@ -30,7 +31,7 @@ class RegisterPage extends Component {
         if (data.message.includes('User')) {
           return this.loginInput.current.errorHandler(data.message)
         } else {
-          alert(data.message)
+          displayAlert(data.message)
         }
       }
       this.props.updateAuth(data.auth)
