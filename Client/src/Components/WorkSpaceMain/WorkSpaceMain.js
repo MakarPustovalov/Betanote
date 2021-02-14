@@ -7,7 +7,7 @@ function WorkSpaceMain({
   }) {
 
   return (
-    <main onClick={hideTagInput} className="mainside__main animate__animated animate__fadeIn">
+    <main onClick={hideTagInput} className="mainside__main animated fadeIn">
   
       <textarea
       name="content"
