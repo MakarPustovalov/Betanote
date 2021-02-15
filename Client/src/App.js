@@ -68,10 +68,10 @@ class App extends React.Component {
     this.openWorkSpace = this.openWorkSpace.bind(this)
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
-    this.resetChanges = this.resetChanges.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
     this.getUserData = this.getUserData.bind(this)
     this.updateCurrentNote = this.updateCurrentNote.bind(this)
+    this.getNoteById = this.getNoteById.bind(this)
   }
 
   // -- -- -- -- --
@@ -188,33 +188,11 @@ class App extends React.Component {
     this.setState({currentNote: {}})
   }
 
-  // reset unsaved changes for current note
-
-  resetChanges() {
-    if (this.getNoteById(this.state.currentNote._id)) {
-      this.setState(state => {
-          return {
-            currentNote: this.getNoteById(state.currentNote._id)
-          }
-      })
-    } else {
-      this.setState(state => {
-          return {
-            currentNote: {
-              ...state.currentNote,
-              description: '',
-              content: ''
-            }
-          }
-      })
-    }
-  }
-
   // -- -- -- -- --
   // App Methods & handlers
   // -- -- -- -- --
 
-  // Universal handler for input (notes)
+  // updating current note at App state
 
   async updateCurrentNote(note) {
     this.setState({currentNote: note})
@@ -290,9 +268,9 @@ class App extends React.Component {
                 isWorkspaceOn={this.state.isWorkspaceOn}
                 closeWorkspace={this.closeWorkspace}
                 deleteNoteHandler={this.deleteNoteHandler}
-                resetChanges={this.resetChanges}
                 saveCurrentNote={this.saveCurrentNote}
                 updateCurrentNote={this.updateCurrentNote}
+                getNoteById={this.getNoteById}
               />
 
             </div>

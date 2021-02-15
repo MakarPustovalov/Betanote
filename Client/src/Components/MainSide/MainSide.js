@@ -7,9 +7,9 @@ function MainSide ({
     saveCurrentNote,
     closeWorkspace,
     deleteNoteHandler,
-    resetChanges,
     isWorkspaceOn,
-    updateCurrentNote
+    updateCurrentNote,
+    getNoteById
   }) {
   return(
     <section className="mainside">
@@ -22,8 +22,8 @@ function MainSide ({
               saveCurrentNote={saveCurrentNote}
               closeWorkspace={closeWorkspace}
               deleteNoteHandler={deleteNoteHandler}
-              resetChanges={resetChanges}
               updateCurrentNote={updateCurrentNote}
+              getNoteById={getNoteById}
             />
             :
             <div className="mainside__logo-container animated fadeIn">

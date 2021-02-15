@@ -12,12 +12,13 @@ class WorkSpace extends Component {
         description: '',
         content: "",
         tag: ""
-      }, // selected note
+      } // selected note
     }
     this.setTagBtnHandler = this.setTagBtnHandler.bind(this)
     this.hideTagInput = this.hideTagInput.bind(this)
     this.noteInputHandler = this.noteInputHandler.bind(this)
     this.saveNoteHandler = this.saveNoteHandler.bind(this)
+    this.resetChanges = this.resetChanges.bind(this)
   }
 
   setTagBtnHandler() {
@@ -58,6 +59,28 @@ class WorkSpace extends Component {
     this.props.saveCurrentNote()
   }
 
+  // reset unsaved changes for current note
+
+  resetChanges() {
+    if (this.props.getNoteById(this.state.currentNote._id)) {
+      this.setState(state => {
+          return {
+            currentNote: this.props.getNoteById(state.currentNote._id)
+          }
+      })
+    } else {
+      this.setState(state => {
+          return {
+            currentNote: {
+              ...state.currentNote,
+              description: '',
+              content: ''
+            }
+          }
+      })
+    }
+  }
+
   componentDidMount() {
     this.setState({currentNote: this.props.currentNote})
   }
@@ -75,7 +98,7 @@ class WorkSpace extends Component {
           saveNoteHandler={this.saveNoteHandler}
           closeWorkspace={this.props.closeWorkspace}
           deleteNoteHandler={this.props.deleteNoteHandler}
-          resetChanges={this.props.resetChanges}
+          resetChanges={this.resetChanges}
           setTagBtnHandler={this.setTagBtnHandler}
         />
   
