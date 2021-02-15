@@ -55,7 +55,6 @@ class App extends React.Component {
       notes: [], // list of notes
       currentNote: {}, //selected note
       isWorkspaceOn: false, //enabling workspace
-      lastTags: [], //last 3 tags
       auth: false, //did user authentificated
       userdata: {} //data {id, username}
     }
@@ -71,7 +70,6 @@ class App extends React.Component {
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
     this.resetChanges = this.resetChanges.bind(this)
-    this.getLastTags = this.getLastTags.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
     this.getUserData = this.getUserData.bind(this)
   }
@@ -85,7 +83,6 @@ class App extends React.Component {
       if (!data.ok) console.log(data)
       if (!data.noteList) data.noteList = []
       this.setState({notes: data.noteList, auth: data.auth})
-      this.getLastTags()
     })
   }
 
@@ -232,7 +229,6 @@ class App extends React.Component {
   closeWorkspace() {
     this.setState({isWorkspaceOn: false}, () => {
       this.clearCurrentNote()
-      this.getLastTags()
     })
   }
 
@@ -242,35 +238,11 @@ class App extends React.Component {
     this.setState({isWorkspaceOn: true})
   }
 
-  // get list of last 3 tags
-
-  getLastTags() {
-    const tagsArr = this.state.notes.map(elem => elem.tag)
-
-    const cleanTagsArr = []
-    //Clear dublicates
-    for (let i = 0; i < tagsArr.length; i++) {
-      const elem = tagsArr[i]
-      if (!(elem === tagsArr[i - 1] || elem === '')) {
-        cleanTagsArr.push(elem)
-      }
-    }
-
-    const newTags = []
-    //Shortening to 3 elements in massive
-    for (let i = 0; i < 3 && i < cleanTagsArr.length; i++) {
-      newTags.push(cleanTagsArr[i])
-    }
-
-    this.setState({lastTags: newTags})
-  }
-
   // update auth state in app
 
   updateAuth(auth) {
     this.setState({auth}, () => {
       if (auth) {
-        this.getUserData()
         this.getNoteList()
       } else {
         this.setState({notes: []})
@@ -278,7 +250,7 @@ class App extends React.Component {
     })
   }
 
-  // get data about logged user
+  // get data about logged user & get AUTH 
 
   getUserData() {
     getData('logged').then(data => {
@@ -290,7 +262,6 @@ class App extends React.Component {
   componentDidMount() {
     this.getUserData()
     this.getNoteList()
-    this.getLastTags()
 
     // Initialise wow
     new WOW.WOW({
@@ -316,7 +287,6 @@ class App extends React.Component {
                 notes={this.state.notes}
                 noteClickHandler={this.noteClickHandler}
                 createNewNote={this.createNewNote}
-                lastTags={this.state.lastTags}
               />
 
               <MainSide

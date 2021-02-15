@@ -7,23 +7,67 @@ class Sidebar extends React.Component {
   constructor() {
     super()
     this.state = {
-      currentTag: ''
+      currentTag: '',
+      lastTags: [] //last 3 tags
     }
-    this.tagClickHandler = this.tagClickHandler.bind(this)
-    this.cancelSearch = this.cancelSearch.bind(this)
-    this.searchInputHandler =this.searchInputHandler.bind(this)
   }
 
-  tagClickHandler(event) {
+  tagClickHandler = event => {
     this.setState({currentTag: event.currentTarget.id})
   }
 
-  cancelSearch() {
+  cancelSearch = () => {
     this.setState({currentTag: ''})
   }
 
-  searchInputHandler(event) {
+  searchInputHandler = event => {
     this.setState({currentTag: event.target.value})
+  }
+
+  // get list of last 3 tags
+
+  getLastTags = () => {
+    const tagsArr = this.props.notes.map(elem => elem.tag)
+
+    const cleanTagsArr = []
+    //Clear dublicates
+    for (let i = 0; i < tagsArr.length; i++) {
+      const elem = tagsArr[i]
+      if (!(elem === tagsArr[i - 1] || elem === '')) {
+        cleanTagsArr.push(elem)
+      }
+    }
+
+    const newTags = []
+    //Shortening to 3 elements in massive
+    for (let i = 0; i < 3 && i < cleanTagsArr.length; i++) {
+      newTags.push(cleanTagsArr[i])
+    }
+
+    this.setState({lastTags: newTags})
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Compare notes arr in props
+    const prevTags = prevProps.notes.map(elem => elem.tag)
+    const tags = this.props.notes.map(elem => elem.tag)
+
+    // Get changed elements
+    const comparedArr = prevTags.filter((elem, i) => {
+      return tags[i] !== elem
+    })
+
+    let isPropsChanged = false
+
+    if ((comparedArr.length > 0) || (prevTags.length !== tags.length)) isPropsChanged = true
+
+    // Update state if tags arr changed
+
+    if (isPropsChanged) this.getLastTags()
+  }
+
+  componentDidMount() {
+    this.getLastTags()
   }
 
   render() {
@@ -44,7 +88,7 @@ class Sidebar extends React.Component {
       
               <div className="sidebar__tag-line">
   
-                {this.props.lastTags.length > 0 ? <LastTagsLine lastTags={this.props.lastTags} tagClickHandler={this.tagClickHandler} /> : false}
+                {this.state.lastTags.length > 0 ? <LastTagsLine lastTags={this.state.lastTags} tagClickHandler={this.tagClickHandler} /> : false}
       
               </div>
     
