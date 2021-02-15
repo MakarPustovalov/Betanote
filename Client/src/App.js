@@ -61,7 +61,6 @@ class App extends React.Component {
     this.getNoteList = this.getNoteList.bind(this)
     this.createNoteOnServer = this.createNoteOnServer.bind(this)
     this.updateNoteOnServer = this.updateNoteOnServer.bind(this)
-    this.noteInputHandler = this.noteInputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveCurrentNote = this.saveCurrentNote.bind(this)
     this.createNewNote = this.createNewNote.bind(this)
@@ -72,6 +71,7 @@ class App extends React.Component {
     this.resetChanges = this.resetChanges.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
     this.getUserData = this.getUserData.bind(this)
+    this.updateCurrentNote = this.updateCurrentNote.bind(this)
   }
 
   // -- -- -- -- --
@@ -216,12 +216,8 @@ class App extends React.Component {
 
   // Universal handler for input (notes)
 
-  noteInputHandler(event) {
-    this.setState(state => {
-      return {currentNote: 
-        {...state.currentNote, [event.target.name]: event.target.value}
-      }
-    })
+  async updateCurrentNote(note) {
+    this.setState({currentNote: note})
   }
 
   // show start screen
@@ -291,12 +287,12 @@ class App extends React.Component {
 
               <MainSide
                 currentNote={this.state.currentNote}
-                noteInputHandler={this.noteInputHandler}
                 isWorkspaceOn={this.state.isWorkspaceOn}
                 closeWorkspace={this.closeWorkspace}
                 deleteNoteHandler={this.deleteNoteHandler}
                 resetChanges={this.resetChanges}
                 saveCurrentNote={this.saveCurrentNote}
+                updateCurrentNote={this.updateCurrentNote}
               />
 
             </div>

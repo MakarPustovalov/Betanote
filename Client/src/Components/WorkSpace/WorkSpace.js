@@ -5,12 +5,19 @@ import WorkSpaceMain from '../WorkSpaceMain/WorkSpaceMain'
 class WorkSpace extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      isTagInputShow: false
+      isTagInputShow: false, // set true if input for tag is showed
+      currentNote: {
+        description: '',
+        content: "",
+        tag: ""
+      }, // selected note
     }
     this.setTagBtnHandler = this.setTagBtnHandler.bind(this)
     this.hideTagInput = this.hideTagInput.bind(this)
+    this.noteInputHandler = this.noteInputHandler.bind(this)
+    this.saveNoteHandler = this.saveNoteHandler.bind(this)
   }
 
   setTagBtnHandler() {
@@ -37,24 +44,45 @@ class WorkSpace extends Component {
       }
     )
   }
+
+  noteInputHandler(event) {
+    this.setState(state => {
+      return {currentNote:
+        {...state.currentNote, [event.target.name]: event.target.value}
+      }
+    })
+  }
+
+  async saveNoteHandler () {
+    await this.props.updateCurrentNote(this.state.currentNote)
+    this.props.saveCurrentNote()
+  }
+
+  componentDidMount() {
+    this.setState({currentNote: this.props.currentNote})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentNote !== this.props.currentNote) this.setState({currentNote: this.props.currentNote})
+  }
   
   render() {
     return(
       <>
         <WorkSpaceHeader
-          currentNote={this.props.currentNote}
-          noteInputHandler={this.props.noteInputHandler}
-          saveCurrentNote={this.props.saveCurrentNote}
+          currentNote={this.state.currentNote}
+          noteInputHandler={this.noteInputHandler}
+          saveNoteHandler={this.saveNoteHandler}
           closeWorkspace={this.props.closeWorkspace}
           deleteNoteHandler={this.props.deleteNoteHandler}
           resetChanges={this.props.resetChanges}
-          setTagBtnHandler={this.props.setTagBtnHandler}
+          setTagBtnHandler={this.setTagBtnHandler}
         />
   
         <WorkSpaceMain 
-          currentNote={this.props.currentNote}
-          noteInputHandler={this.props.noteInputHandler}
-          hideTagInput={this.props.hideTagInput}
+          currentNote={this.state.currentNote}
+          noteInputHandler={this.noteInputHandler}
+          hideTagInput={this.hideTagInput}
         />
       </>
     )

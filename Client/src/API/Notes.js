@@ -47,7 +47,7 @@ export async function createNote(note) {
           const refresh = await refreshTokens()
           if (refresh.ok) {
     
-            const response = await fetch(config.API_ROUTE + 'write-note', {
+            const response = await fetch(config.API_ROUTE + 'create-note', {
               method: 'POST',
               credentials: 'include',
               headers: {
@@ -113,7 +113,7 @@ export async function updateNote(note) {
           const refresh = await refreshTokens()
           if (refresh.ok) {
     
-            const response = await fetch(config.API_ROUTE + 'write-note', {
+            const response = await fetch(config.API_ROUTE + 'update-note', {
               method: 'POST',
               credentials: 'include',
               headers: {
@@ -179,8 +179,8 @@ export async function deleteNote(noteId) {
           const refresh = await refreshTokens()
           if (refresh.ok) {
     
-            const response = await fetch(config.API_ROUTE + 'write-note', {
-              method: 'POST',
+            const response = await fetch(config.API_ROUTE + 'delete-note', {
+              method: 'DELETE',
               credentials: 'include',
               headers: {
                 'Content-Type': 'application/json;charset=utf-8'

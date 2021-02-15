@@ -4,12 +4,12 @@ import logo from '../../Assets/img/logo.png'
 
 function MainSide ({
     currentNote,
-    noteInputHandler,
     saveCurrentNote,
     closeWorkspace,
     deleteNoteHandler,
     resetChanges,
-    isWorkspaceOn
+    isWorkspaceOn,
+    updateCurrentNote
   }) {
   return(
     <section className="mainside">
@@ -19,11 +19,11 @@ function MainSide ({
           {isWorkspaceOn ? 
             <WorkSpace
               currentNote={currentNote}
-              noteInputHandler={noteInputHandler}
               saveCurrentNote={saveCurrentNote}
               closeWorkspace={closeWorkspace}
               deleteNoteHandler={deleteNoteHandler}
               resetChanges={resetChanges}
+              updateCurrentNote={updateCurrentNote}
             />
             :
             <div className="mainside__logo-container animated fadeIn">
