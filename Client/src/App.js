@@ -21,7 +21,6 @@ import WOW from 'wowjs'
  * - [X] NodeJS server for notes
  * - [X] API for CRUD endpoints
  * - [X] Refactoring frontend for work with endpoints
- * - [X] Animation when update mainside
  * - [X] Tags
  * - --Colors--
  * - [X] Last tags
@@ -31,12 +30,11 @@ import WOW from 'wowjs'
  * - Adaptive for mobile!!!
  * - [X] Hints for buttons
  * - [X] Validate inputs
- * - Animation for tags line
+ * - [X] Add wowjs animation
  * - [X] Quick guide
- * - --Animation for guide--
  * - [X] Favicon & title
  * - DOCUMENTATION!!!
- * - Move guide to other route
+ * - [X] Move guide to other route
  * - Active note must highlighted in list
  * - Improve searching by tags
  * FIXME:
@@ -45,7 +43,7 @@ import WOW from 'wowjs'
  * - [X] Add special function for opening workspace
  * - [X] Ref is null at LoginPage
  * - [X] Create SEPARATED endpoints for creating and updating
- * - Rerendering app after any action
+ * - Rerendering app after any action (Big refactoring)
  */
 
 class App extends React.Component {

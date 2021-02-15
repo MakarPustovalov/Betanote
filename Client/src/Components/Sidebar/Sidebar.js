@@ -47,8 +47,8 @@ class Sidebar extends React.Component {
     this.setState({lastTags: newTags})
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // Compare notes arr in props
+  componentDidUpdate(prevProps) {
+    // Compare tags arr in props
     const prevTags = prevProps.notes.map(elem => elem.tag)
     const tags = this.props.notes.map(elem => elem.tag)
 
@@ -68,6 +68,25 @@ class Sidebar extends React.Component {
 
   componentDidMount() {
     this.getLastTags()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Compare notes arr in props
+    const prevNotes = this.props.notes
+    const notes = nextProps.notes
+
+    // Get changed notes
+    const comparedArr = prevNotes.filter((elem, i) => {
+      return notes[i] !== elem
+    })
+
+    let isPropsChanged = false
+
+    if ((comparedArr.length > 0) || (prevNotes.length !== notes.length)) isPropsChanged = true
+
+    if (isPropsChanged) return true
+    if (nextState !== this.state) return true
+    return false
   }
 
   render() {
