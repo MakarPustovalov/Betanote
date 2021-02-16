@@ -21,7 +21,6 @@ import WOW from 'wowjs'
  * - [X] NodeJS server for notes
  * - [X] API for CRUD endpoints
  * - [X] Refactoring frontend for work with endpoints
- * - [X] Animation when update mainside
  * - [X] Tags
  * - --Colors--
  * - [X] Last tags
@@ -31,12 +30,11 @@ import WOW from 'wowjs'
  * - Adaptive for mobile!!!
  * - [X] Hints for buttons
  * - [X] Validate inputs
- * - Animation for tags line
+ * - [X] Add wowjs animation
  * - [X] Quick guide
- * - --Animation for guide--
  * - [X] Favicon & title
  * - DOCUMENTATION!!!
- * - Move guide to other route
+ * - [X] Move guide to other route
  * - Active note must highlighted in list
  * - Improve searching by tags
  * FIXME:
@@ -45,7 +43,7 @@ import WOW from 'wowjs'
  * - [X] Add special function for opening workspace
  * - [X] Ref is null at LoginPage
  * - [X] Create SEPARATED endpoints for creating and updating
- * - Rerendering app after any action
+ * - Rerendering app after any action (Big refactoring)
  */
 
 class App extends React.Component {
@@ -55,14 +53,12 @@ class App extends React.Component {
       notes: [], // list of notes
       currentNote: {}, //selected note
       isWorkspaceOn: false, //enabling workspace
-      lastTags: [], //last 3 tags
       auth: false, //did user authentificated
       userdata: {} //data {id, username}
     }
     this.getNoteList = this.getNoteList.bind(this)
     this.createNoteOnServer = this.createNoteOnServer.bind(this)
     this.updateNoteOnServer = this.updateNoteOnServer.bind(this)
-    this.noteInputHandler = this.noteInputHandler.bind(this)
     this.noteClickHandler = this.noteClickHandler.bind(this)
     this.saveCurrentNote = this.saveCurrentNote.bind(this)
     this.createNewNote = this.createNewNote.bind(this)
@@ -70,10 +66,10 @@ class App extends React.Component {
     this.openWorkSpace = this.openWorkSpace.bind(this)
     this.deleteNoteHandler = this.deleteNoteHandler.bind(this)
     this.clearCurrentNote = this.clearCurrentNote.bind(this)
-    this.resetChanges = this.resetChanges.bind(this)
-    this.getLastTags = this.getLastTags.bind(this)
     this.updateAuth = this.updateAuth.bind(this)
     this.getUserData = this.getUserData.bind(this)
+    this.updateCurrentNote = this.updateCurrentNote.bind(this)
+    this.getNoteById = this.getNoteById.bind(this)
   }
 
   // -- -- -- -- --
@@ -85,7 +81,6 @@ class App extends React.Component {
       if (!data.ok) console.log(data)
       if (!data.noteList) data.noteList = []
       this.setState({notes: data.noteList, auth: data.auth})
-      this.getLastTags()
     })
   }
 
@@ -191,40 +186,14 @@ class App extends React.Component {
     this.setState({currentNote: {}})
   }
 
-  // reset unsaved changes for current note
-
-  resetChanges() {
-    if (this.getNoteById(this.state.currentNote._id)) {
-      this.setState(state => {
-          return {
-            currentNote: this.getNoteById(state.currentNote._id)
-          }
-      })
-    } else {
-      this.setState(state => {
-          return {
-            currentNote: {
-              ...state.currentNote,
-              description: '',
-              content: ''
-            }
-          }
-      })
-    }
-  }
-
   // -- -- -- -- --
   // App Methods & handlers
   // -- -- -- -- --
 
-  // Universal handler for input (notes)
+  // updating current note at App state
 
-  noteInputHandler(event) {
-    this.setState(state => {
-      return {currentNote: 
-        {...state.currentNote, [event.target.name]: event.target.value}
-      }
-    })
+  async updateCurrentNote(note) {
+    this.setState({currentNote: note})
   }
 
   // show start screen
@@ -232,7 +201,6 @@ class App extends React.Component {
   closeWorkspace() {
     this.setState({isWorkspaceOn: false}, () => {
       this.clearCurrentNote()
-      this.getLastTags()
     })
   }
 
@@ -242,35 +210,11 @@ class App extends React.Component {
     this.setState({isWorkspaceOn: true})
   }
 
-  // get list of last 3 tags
-
-  getLastTags() {
-    const tagsArr = this.state.notes.map(elem => elem.tag)
-
-    const cleanTagsArr = []
-    //Clear dublicates
-    for (let i = 0; i < tagsArr.length; i++) {
-      const elem = tagsArr[i]
-      if (!(elem === tagsArr[i - 1] || elem === '')) {
-        cleanTagsArr.push(elem)
-      }
-    }
-
-    const newTags = []
-    //Shortening to 3 elements in massive
-    for (let i = 0; i < 3 && i < cleanTagsArr.length; i++) {
-      newTags.push(cleanTagsArr[i])
-    }
-
-    this.setState({lastTags: newTags})
-  }
-
   // update auth state in app
 
   updateAuth(auth) {
     this.setState({auth}, () => {
       if (auth) {
-        this.getUserData()
         this.getNoteList()
       } else {
         this.setState({notes: []})
@@ -278,7 +222,7 @@ class App extends React.Component {
     })
   }
 
-  // get data about logged user
+  // get data about logged user & get AUTH 
 
   getUserData() {
     getData('logged').then(data => {
@@ -290,7 +234,6 @@ class App extends React.Component {
   componentDidMount() {
     this.getUserData()
     this.getNoteList()
-    this.getLastTags()
 
     // Initialise wow
     new WOW.WOW({
@@ -316,17 +259,16 @@ class App extends React.Component {
                 notes={this.state.notes}
                 noteClickHandler={this.noteClickHandler}
                 createNewNote={this.createNewNote}
-                lastTags={this.state.lastTags}
               />
 
               <MainSide
                 currentNote={this.state.currentNote}
-                noteInputHandler={this.noteInputHandler}
                 isWorkspaceOn={this.state.isWorkspaceOn}
                 closeWorkspace={this.closeWorkspace}
                 deleteNoteHandler={this.deleteNoteHandler}
-                resetChanges={this.resetChanges}
                 saveCurrentNote={this.saveCurrentNote}
+                updateCurrentNote={this.updateCurrentNote}
+                getNoteById={this.getNoteById}
               />
 
             </div>

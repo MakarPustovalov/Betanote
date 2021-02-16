@@ -9,7 +9,7 @@ import deleteBtn from '../../Assets/img/buttons/delete.svg'
 function WorkSpaceHeader({
     currentNote,
     noteInputHandler,
-    saveCurrentNote,
+    saveNoteHandler,
     closeWorkspace,
     deleteNoteHandler,
     resetChanges,
@@ -54,7 +54,7 @@ function WorkSpaceHeader({
           <img src={cancel} alt="Cancel" />
         </button>
   
-        <button title="Save note" onClick={saveCurrentNote} className="mainside__controls-button">
+        <button title="Save note" onClick={saveNoteHandler} className="mainside__controls-button">
           <img src={save} alt="Save" />
         </button>
   
