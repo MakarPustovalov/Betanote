@@ -43,7 +43,7 @@ import WOW from 'wowjs'
  * - [X] Add special function for opening workspace
  * - [X] Ref is null at LoginPage
  * - [X] Create SEPARATED endpoints for creating and updating
- * - Rerendering app after any action (Big refactoring)
+ * - [X] Rerendering app after any action (Big refactoring)
  */
 
 class App extends React.Component {
