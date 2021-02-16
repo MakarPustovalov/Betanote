@@ -1,4 +1,4 @@
 const config = {
-  API_ROUTE: 'http://localhost:5000/'
+  API_ROUTE: 'https://betanote-server.herokuapp.com/'
 }
 export default config
