@@ -8,6 +8,7 @@ const {
   verifyRefreshToken
 } = require('../helpers/authHelper')
 const { BadAuthRequestError, ServerError, UnathorizedError } = require('../errors/Errors')
+const config = require('../config')
 
 class AuthController {
 
@@ -43,14 +44,14 @@ class AuthController {
         maxAge: 900000,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).cookie('refreshToken', refreshToken, {
         maxAge: 2592000000,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).json({message: 'Registered', auth: true})
@@ -82,14 +83,14 @@ class AuthController {
         maxAge: 900000,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).cookie('refreshToken', refreshToken, {
         maxAge: 2592000000,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).json({message: 'Logged in', auth: true})
@@ -124,14 +125,14 @@ class AuthController {
         maxAge: 900000,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).cookie('refreshToken', refreshToken, {
         maxAge: 2592000000,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).json({message: 'Refreshed tokens', auth: true})
@@ -148,14 +149,14 @@ class AuthController {
         maxAge: 1,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).cookie('refreshToken', '', {
         maxAge: 1,
         httpOnly: true,
         signed: true,
-        domain: process.env.MODE === 'production' ? '' : 'localhost',
+        domain: config.domain,
         sameSite: process.env.MODE === 'production' ? 'none' : 'lax',
         secure: process.env.MODE === 'production' ? true : false
       }).json({message: 'Logged out', auth: false})
